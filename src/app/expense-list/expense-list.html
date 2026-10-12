@@ -1,0 +1,238 @@
+<div class="expense-list">
+
+    <div class="filter-section">
+
+        <div class="search-box">
+
+            <mat-icon>
+                search
+            </mat-icon>
+
+            <input type="text" [(ngModel)]="searchText" (input)="resetPagination()" placeholder="Search expense">
+
+        </div>
+
+        <div class="category-filter">
+
+            <mat-icon>
+                category
+            </mat-icon>
+
+            <select [(ngModel)]="selectedCategory" (change)="resetPagination()">
+
+                <option value="">
+                    All Categories
+                </option>
+
+                <option value="Food">
+                    Food
+                </option>
+
+                <option value="Travel">
+                    Travel
+                </option>
+
+                <option value="Shopping">
+                    Shopping
+                </option>
+
+                <option value="Bills">
+                    Bills
+                </option>
+
+                <option value="Other">
+                    Other
+                </option>
+
+            </select>
+
+        </div>
+
+    </div>
+
+    @if (searchExpenses().length === 0) {
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+
+            <mat-icon>
+                receipt_long
+            </mat-icon>
+
+        </div>
+
+        <h3>
+            No expenses found
+        </h3>
+
+        <p>
+            Try changing your search or category filter.
+        </p>
+
+    </div>
+
+    } @else {
+
+    <div class="table-container">
+
+        <table class="expense-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        NAME
+                    </th>
+
+                    <th>
+                        AMOUNT
+                    </th>
+
+                    <th>
+                        CATEGORY
+                    </th>
+
+                    <th>
+                        DATE
+                    </th>
+
+                    <th>
+                        ACTIONS
+                    </th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for (
+                expense of getPaginatedExpenses();
+                track expense.id
+                ) {
+
+                <tr>
+
+                    <td>
+
+                        <div class="expense-name">
+
+                            <div class="expense-icon">
+
+                                <mat-icon>
+                                    receipt
+                                </mat-icon>
+
+                            </div>
+
+                            <span>
+                                {{ expense.name }}
+                            </span>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+
+                        <span class="amount">
+                            ₹{{ expense.amount }}
+                        </span>
+
+                    </td>
+
+                    <td>
+
+                        <span class="category-badge">
+                            {{ expense.category }}
+                        </span>
+
+                    </td>
+
+                    <td>
+                        {{ expense.date }}
+                    </td>
+
+                    <td>
+
+                        <div class="action-buttons">
+
+                            <button mat-icon-button class="view-button" [routerLink]="[
+                                            '/expense',
+                                            expense.id
+                                        ]">
+
+                                <mat-icon>
+                                    visibility
+                                </mat-icon>
+
+                            </button>
+
+                            <button mat-icon-button class="edit-button" (click)="edit(expense.id)">
+
+                                <mat-icon>
+                                    edit
+                                </mat-icon>
+
+                            </button>
+
+                            <button mat-icon-button class="delete-button" (click)="delete(expense.id)">
+
+                                <mat-icon>
+                                    delete
+                                </mat-icon>
+
+                            </button>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    @if (getTotalPages() > 1) {
+
+    <div class="pagination">
+
+        <button mat-button (click)="previousPage()" [disabled]="currentPage === 1">
+
+            Previous
+
+        </button>
+
+        @for (
+        page of getPageNumbers();
+        track page
+        ) {
+
+        <button mat-button (click)="goToPage(page)" [class.active-page]="currentPage === page">
+
+            {{ page }}
+
+        </button>
+
+        }
+
+        <button mat-button (click)="nextPage()" [disabled]="currentPage === getTotalPages()">
+
+            Next
+
+        </button>
+
+    </div>
+
+    }
+
+    }
+
+</div>

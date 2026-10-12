@@ -1,0 +1,124 @@
+{
+  "expenses": [
+    {
+      "id": "4",
+      "name": "Movie",
+      "amount": 500,
+      "category": "Entertainment",
+      "date": "2026-09-27"
+    },
+    {
+      "id": "5",
+      "name": "Pizza",
+      "amount": 700,
+      "category": "Food",
+      "date": "2026-09-26"
+    },
+    {
+      "id": "10",
+      "name": "Bus Ticket",
+      "amount": 300,
+      "category": "Travel",
+      "date": "2026-09-21"
+    },
+    {
+      "id": "11",
+      "name": "Coffee",
+      "amount": 150,
+      "category": "Food",
+      "date": "2026-09-20"
+    },
+    {
+      "id": "12",
+      "name": "Gym Membership",
+      "amount": 2500,
+      "category": "Health",
+      "date": "2026-09-19"
+    },
+    {
+      "name": "foods",
+      "amount": 2000,
+      "category": "Food",
+      "date": "2026-10-06",
+      "id": "fZGFGK9CowU"
+    },
+    {
+      "name": "laptop bag",
+      "amount": 951,
+      "category": "Shopping",
+      "date": "2026-10-05",
+      "id": "XXzSX-Ngh8w"
+    },
+    {
+      "name": "shoes",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-06",
+      "id": "fh7i4UufCbw"
+    },
+    {
+      "name": "bills",
+      "amount": 1000,
+      "category": "Bills",
+      "date": "2026-10-05",
+      "id": "WV0XvNAzUSI"
+    },
+    {
+      "name": "shoes",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-06",
+      "id": "f678I05budg"
+    },
+    {
+      "name": "shoes",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-06",
+      "id": "uFBmVya2lCk"
+    },
+    {
+      "name": "shoes ",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-07",
+      "id": "sMGCDtuQUww"
+    },
+    {
+      "name": "shoes ",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-07",
+      "id": "sMGCDtuQUww"
+    },
+    {
+      "name": "watch",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-09",
+      "id": "m1U36tVxazM"
+    },
+    {
+      "name": "watch",
+      "amount": 3000,
+      "category": "Shopping",
+      "date": "2026-10-09",
+      "id": "yC459qDO_-8"
+    },
+    {
+      "name": "shoes",
+      "amount": 2000,
+      "category": "Shopping",
+      "date": "2026-10-08",
+      "id": "dkHRTbGlhps"
+    },
+    {
+      "name": "health",
+      "amount": 3000,
+      "category": "Other",
+      "date": "2026-10-05",
+      "id": "tqHzIHq9tmM"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

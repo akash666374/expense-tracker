@@ -1,0 +1,266 @@
+<div class="signup-container">
+
+    <div class="signup-card">
+
+
+        <!-- ========================= -->
+        <!-- LEFT BRAND SECTION -->
+        <!-- ========================= -->
+
+        <div class="brand-section">
+
+            <div class="brand-content">
+
+                <div class="brand-icon">
+                    ₹
+                </div>
+
+                <h1>
+                    Expense Tracker
+                </h1>
+
+                <p class="brand-description">
+
+                    Start taking control of your
+                    finances today. Track expenses,
+                    understand your spending and
+                    manage your money with ease.
+
+                </p>
+
+
+                <!-- FEATURES -->
+
+                <div class="brand-features">
+
+                    <div class="feature-card">
+
+                        <span class="feature-icon">
+                            ₹
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Track Expenses
+                            </strong>
+
+                            <span>
+                                Keep your spending organized
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <span class="feature-icon">
+                            ✓
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Stay Organized
+                            </strong>
+
+                            <span>
+                                Manage your finances easily
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="feature-card">
+
+                        <span class="feature-icon">
+                            ↗
+                        </span>
+
+                        <div>
+
+                            <strong>
+                                Understand Spending
+                            </strong>
+
+                            <span>
+                                See where your money goes
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="brand-footer">
+
+                Manage your money. Build better habits.
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ========================= -->
+        <!-- SIGNUP FORM -->
+        <!-- ========================= -->
+
+        <div class="form-section">
+
+
+            <div class="form-header">
+
+                <h2>
+                    Create your account
+                </h2>
+
+                <p>
+                    Start managing your expenses today
+                </p>
+
+            </div>
+
+
+
+            <form (submit)="signup()">
+
+
+                <!-- ========================= -->
+                <!-- NAME -->
+                <!-- ========================= -->
+
+                <div class="form-group">
+
+                    <label>
+                        Full name
+                    </label>
+
+                    <input type="text" [formField]="signupForm.name" placeholder="Enter your name">
+
+
+                    @if (
+                    signupForm.name().touched() &&
+                    signupForm.name().invalid()
+                    ) {
+
+                    <p class="field-error">
+
+                        Name is required.
+
+                    </p>
+
+                    }
+
+                </div>
+
+
+
+                <!-- ========================= -->
+                <!-- EMAIL -->
+                <!-- ========================= -->
+
+                <div class="form-group">
+
+                    <label>
+                        Email address
+                    </label>
+
+                    <input type="email" [formField]="signupForm.email" placeholder="you@example.com">
+
+
+                    @if (
+                    signupForm.email().touched() &&
+                    signupForm.email().invalid()
+                    ) {
+
+                    <p class="field-error">
+
+                        Please enter a valid email.
+
+                    </p>
+
+                    }
+
+                </div>
+
+
+
+                <!-- ========================= -->
+                <!-- PASSWORD -->
+                <!-- ========================= -->
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input type="password" [formField]="signupForm.password" placeholder="Create a password">
+
+
+                    @if (
+                    signupForm.password().touched() &&
+                    signupForm.password().invalid()
+                    ) {
+
+                    <p class="field-error">
+
+                        Password must be at least
+                        6 characters.
+
+                    </p>
+
+                    }
+
+                </div>
+
+
+
+                <!-- ========================= -->
+                <!-- SIGNUP BUTTON -->
+                <!-- ========================= -->
+
+                <button type="submit" class="signup-button">
+
+                    Create account
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- ========================= -->
+            <!-- LOGIN LINK -->
+            <!-- ========================= -->
+
+            <p class="login-text">
+
+                Already have an account?
+
+                <a routerLink="/login">
+                    Login
+                </a>
+
+            </p>
+
+
+        </div>
+
+    </div>
+
+</div>

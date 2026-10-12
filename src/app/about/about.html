@@ -1,0 +1,385 @@
+<app-navbar></app-navbar>
+
+
+
+<div class="about-page">
+
+
+
+
+    <section class="hero-section">
+
+        <div class="hero-content">
+
+
+
+            <div class="hero-badge">
+
+                <mat-icon>
+                    account_balance_wallet
+                </mat-icon>
+
+                <span>
+                    Simple. Smart. Organized.
+                </span>
+
+            </div>
+
+
+
+
+            <h1>
+
+                Take control of
+
+                <span>
+                    your expenses.
+                </span>
+
+            </h1>
+
+
+
+            <p class="hero-description">
+
+                Expense Tracker helps you record your
+                spending, organize your expenses and
+                understand your financial habits from
+                one simple dashboard.
+
+            </p>
+
+
+
+            <div class="hero-buttons">
+
+                <a mat-flat-button class="primary-button" routerLink="/expenses">
+
+                    <mat-icon>
+                        add
+                    </mat-icon>
+
+                    Add an Expense
+
+                </a>
+
+
+                <a mat-stroked-button class="secondary-button" routerLink="/dashboard">
+
+                    <mat-icon>
+                        dashboard
+                    </mat-icon>
+
+                    View Dashboard
+
+                </a>
+
+            </div>
+
+
+            <div class="hero-stats">
+
+
+                <div class="hero-stat">
+
+                    <mat-icon>
+                        check_circle
+                    </mat-icon>
+
+                    <div>
+
+                        <strong>
+                            Easy
+                        </strong>
+
+                        <span>
+                            to use
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-stat">
+
+                    <mat-icon>
+                        bolt
+                    </mat-icon>
+
+                    <div>
+
+                        <strong>
+                            Fast
+                        </strong>
+
+                        <span>
+                            tracking
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-stat">
+
+                    <mat-icon>
+                        insights
+                    </mat-icon>
+
+                    <div>
+
+                        <strong>
+                            Clear
+                        </strong>
+
+                        <span>
+                            insights
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="hero-visual">
+
+            <div class="dashboard-preview">
+
+
+
+                <div class="preview-header">
+
+                    <div>
+
+                        <span class="preview-label">
+                            OVERVIEW
+                        </span>
+
+                        <h3>
+                            Your finances
+                        </h3>
+
+                    </div>
+
+
+                    <div class="preview-icon">
+
+                        <mat-icon>
+                            account_balance_wallet
+                        </mat-icon>
+
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="preview-card">
+
+                    <span>
+                        Total Expenses
+                    </span>
+
+                    <strong>
+                        ₹18,500
+                    </strong>
+
+                    <div class="preview-progress">
+
+                        <span></span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="preview-grid">
+
+
+                    <div class="mini-card">
+
+                        <mat-icon>
+                            receipt_long
+                        </mat-icon>
+
+                        <strong>
+                            24
+                        </strong>
+
+                        <span>
+                            Expenses
+                        </span>
+
+                    </div>
+
+
+                    <div class="mini-card">
+
+                        <mat-icon>
+                            trending_up
+                        </mat-icon>
+
+                        <strong>
+                            ₹2,500
+                        </strong>
+
+                        <span>
+                            Highest
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+
+                <div class="preview-chart">
+
+                    <div class="chart-title">
+
+                        <span>
+                            Spending overview
+                        </span>
+
+                        <mat-icon>
+                            more_horiz
+                        </mat-icon>
+
+                    </div>
+
+
+                    <div class="fake-chart">
+
+                        <div class="chart-bar bar-one"></div>
+
+                        <div class="chart-bar bar-two"></div>
+
+                        <div class="chart-bar bar-three"></div>
+
+                        <div class="chart-bar bar-four"></div>
+
+                        <div class="chart-bar bar-five"></div>
+
+                        <div class="chart-bar bar-six"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+    <section class="section">
+
+
+
+
+        <div class="section-heading">
+
+            <span class="section-label">
+                FEATURES
+            </span>
+
+            <h2>
+                Everything you need to
+                manage your spending
+            </h2>
+
+            <p>
+                Designed to make everyday expense
+                tracking simple and convenient.
+            </p>
+
+        </div>
+
+
+
+        <div class="feature-grid">
+
+            @for (
+            feature of features;
+            track feature.title
+            ) {
+
+            <div class="feature-card">
+
+                >
+
+                <div class="feature-icon">
+
+                    <mat-icon>
+                        {{ feature.icon }}
+                    </mat-icon>
+
+                </div>
+
+
+
+
+                <h3>
+                    {{ feature.title }}
+                </h3>
+
+
+
+
+                <p>
+                    {{ feature.description }}
+                </p>
+
+
+
+
+                <div class="feature-arrow">
+
+                    <mat-icon>
+                        arrow_forward
+                    </mat-icon>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </section>
+
+
+
+    <footer class="about-footer">
+
+        <div>
+
+            <strong>
+                Expense Tracker
+            </strong>
+
+            <span>
+                Simple expense management.
+            </span>
+
+        </div>
+
+        <span>
+            Built with Angular
+        </span>
+
+    </footer>
+
+</div>

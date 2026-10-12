@@ -1,0 +1,555 @@
+<app-navbar></app-navbar>
+
+
+<div class="reports-page">
+
+
+
+
+    <div class="page-header">
+
+        <div>
+
+            <span class="page-label">
+                ANALYTICS
+            </span>
+
+            <h1>
+                Expense Reports
+            </h1>
+
+            <p>
+                Understand your spending and
+                see where your money is going.
+            </p>
+
+        </div>
+
+
+        <div class="report-icon">
+
+            <mat-icon>
+                analytics
+            </mat-icon>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card purple">
+
+            <div class="summary-icon">
+
+                <mat-icon>
+                    account_balance_wallet
+                </mat-icon>
+
+            </div>
+
+
+            <div class="summary-content">
+
+                <span>
+                    Total Expenses
+                </span>
+
+                <strong>
+                    ₹{{ expenseService.totalExpenses() }}
+                </strong>
+
+                <small>
+                    All time spending
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="summary-card blue">
+
+            <div class="summary-icon">
+
+                <mat-icon>
+                    receipt_long
+                </mat-icon>
+
+            </div>
+
+
+            <div class="summary-content">
+
+                <span>
+                    Number of Expenses
+                </span>
+
+                <strong>
+                    {{ expenseService.expenses().length }}
+                </strong>
+
+                <small>
+                    Recorded expenses
+                </small>
+
+            </div>
+
+        </div>
+
+
+
+
+        <div class="summary-card green">
+
+            <div class="summary-icon">
+
+                <mat-icon>
+                    calculate
+                </mat-icon>
+
+            </div>
+
+
+            <div class="summary-content">
+
+                <span>
+                    Average Expense
+                </span>
+
+                <strong>
+                    ₹{{ averageExpense() | number:'1.0-0' }}
+                </strong>
+
+                <small>
+                    Average per expense
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card orange">
+
+            <div class="summary-icon">
+
+                <mat-icon>
+                    trending_up
+                </mat-icon>
+
+            </div>
+
+
+            <div class="summary-content">
+
+                <span>
+                    Highest Expense
+                </span>
+
+                <strong>
+                    ₹{{ expenseService.highestExpense() }}
+                </strong>
+
+                <small>
+                    Largest transaction
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+    <div class="report-grid">
+
+
+
+        <div class="report-card category-card">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Spending by Category
+                    </h2>
+
+                    <p>
+                        See how your expenses are
+                        distributed.
+                    </p>
+
+                </div>
+
+
+                <div class="card-header-icon">
+
+                    <mat-icon>
+                        pie_chart
+                    </mat-icon>
+
+                </div>
+
+            </div>
+
+
+
+
+            @if (
+            categoryPercentages().length === 0
+            ) {
+
+            <div class="empty-report">
+
+                <mat-icon>
+                    pie_chart_outline
+                </mat-icon>
+
+                <h3>
+                    No data available
+                </h3>
+
+                <p>
+                    Add some expenses to
+                    generate your report.
+                </p>
+
+            </div>
+
+            } @else {
+
+
+            <div class="category-list">
+
+                @for (
+                category of categoryPercentages();
+                track category.category;
+                let i = $index
+                ) {
+
+
+                <div class="category-row">
+
+
+                    <div class="category-info">
+
+
+                        <div class="category-dot" [style.background-color]="
+                                        getCategoryColor(i)
+                                    ">
+                        </div>
+
+
+                        <span>
+                            {{ category.category }}
+                        </span>
+
+
+                    </div>
+
+
+                    <div class="category-values">
+
+                        <strong>
+                            ₹{{ category.amount }}
+                        </strong>
+
+                        <span>
+                            {{ category.percentage | number:'1.0-1' }}%
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <div class="progress-bar">
+
+                    <div class="progress-value" [style.width.%]="
+                                    category.percentage
+                                " [style.background-color]="
+                                    getCategoryColor(i)
+                                ">
+                    </div>
+
+                </div>
+
+
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+        <div class="report-card summary-report">
+
+
+            <div class="card-header">
+
+                <div>
+
+                    <h2>
+                        Spending Summary
+                    </h2>
+
+                    <p>
+                        A quick overview of your
+                        financial activity.
+                    </p>
+
+                </div>
+
+
+                <div class="card-header-icon">
+
+                    <mat-icon>
+                        insights
+                    </mat-icon>
+
+                </div>
+
+            </div>
+
+
+            <!-- Total -->
+
+            <div class="summary-row">
+
+                <div class="row-icon purple-icon">
+
+                    <mat-icon>
+                        payments
+                    </mat-icon>
+
+                </div>
+
+
+                <div class="row-content">
+
+                    <span>
+                        Total spending
+                    </span>
+
+                    <strong>
+                        ₹{{ expenseService.totalExpenses() }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-row">
+
+                <div class="row-icon green-icon">
+
+                    <mat-icon>
+                        functions
+                    </mat-icon>
+
+                </div>
+
+
+                <div class="row-content">
+
+                    <span>
+                        Average expense
+                    </span>
+
+                    <strong>
+                        ₹{{ averageExpense() | number:'1.0-0' }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-row">
+
+                <div class="row-icon orange-icon">
+
+                    <mat-icon>
+                        arrow_upward
+                    </mat-icon>
+
+                </div>
+
+
+                <div class="row-content">
+
+                    <span>
+                        Highest expense
+                    </span>
+
+                    <strong>
+                        ₹{{ expenseService.highestExpense() }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+
+            <div class="summary-row">
+
+                <div class="row-icon blue-icon">
+
+                    <mat-icon>
+                        receipt
+                    </mat-icon>
+
+                </div>
+
+
+                <div class="row-content">
+
+                    <span>
+                        Total transactions
+                    </span>
+
+                    <strong>
+                        {{ expenseService.expenses().length }}
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================== -->
+    <!-- CATEGORY VISUAL -->
+    <!-- ===================================== -->
+
+    <div class="report-card category-visual">
+
+
+        <div class="card-header">
+
+            <div>
+
+                <h2>
+                    Category Distribution
+                </h2>
+
+                <p>
+                    Visual representation of your
+                    spending categories.
+                </p>
+
+            </div>
+
+
+            <mat-icon>
+                donut_large
+            </mat-icon>
+
+        </div>
+
+
+        <div class="visual-content">
+
+
+            <!-- Donut -->
+
+            <div class="donut-chart" [style.background]="
+                    expenseService.categoryChart()
+                ">
+
+                <div class="donut-center">
+
+                    <strong>
+                        ₹{{ expenseService.totalExpenses() }}
+                    </strong>
+
+                    <span>
+                        Total
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- Legend -->
+
+            <div class="legend">
+
+                @for (
+                category of categoryPercentages();
+                track category.category;
+                let i = $index
+                ) {
+
+                <div class="legend-item">
+
+                    <span class="legend-left">
+
+                        <span class="legend-dot" [style.background-color]="
+                                    getCategoryColor(i)
+                                ">
+                        </span>
+
+                        {{ category.category }}
+
+                    </span>
+
+
+                    <strong>
+                        {{ category.percentage | number:'1.0-1' }}%
+                    </strong>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ===================================== -->
+    <!-- FOOTER NOTE -->
+    <!-- ===================================== -->
+
+    <div class="report-note">
+
+        <mat-icon>
+            info
+        </mat-icon>
+
+        <span>
+            Reports are calculated from the expenses
+            currently stored in your Expense Tracker.
+        </span>
+
+    </div>
+
+
+</div>

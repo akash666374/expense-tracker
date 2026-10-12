@@ -1,0 +1,91 @@
+<app-navbar></app-navbar>
+
+<div class="expenses-page">
+
+    <div class="page-header">
+
+        <div>
+
+            <h1>
+                Expenses
+            </h1>
+
+            <p>
+                Track and manage your daily spending.
+            </p>
+
+        </div>
+
+        <button class="refresh-button" (click)="getExpenses()">
+
+            <span>↻</span>
+
+            Refresh
+
+        </button>
+
+    </div>
+
+    @if (successMessage()) {
+
+    <div class="success-message">
+        {{ successMessage() }}
+    </div>
+
+    }
+
+    @if (errorMessage()) {
+
+    <div class="error-message">
+        {{ errorMessage() }}
+    </div>
+
+    }
+
+    <div class="main-content">
+
+        <div class="expense-form-card">
+
+            <app-add-expense (expenseAdded)="saveExpense($event)">
+            </app-add-expense>
+
+        </div>
+
+        <div class="expense-list-card">
+
+            <div class="list-header">
+
+                <div>
+
+                    <h2>
+                        Your Expenses
+                    </h2>
+
+                    <p>
+                        View and manage your expenses.
+                    </p>
+
+                </div>
+
+            </div>
+
+            @if (loading()) {
+
+            <div class="loading">
+
+                <div class="loading-spinner"></div>
+
+                Loading expenses...
+
+            </div>
+
+            }
+
+            <app-expense-list (editExpense)="editExpense($event)" (deleteExpenseEvent)="deleteExpense(String($event))">
+            </app-expense-list>
+
+        </div>
+
+    </div>
+
+</div>

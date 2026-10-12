@@ -1,0 +1,876 @@
+<mat-toolbar class="navbar">
+
+    <button mat-icon-button class="menu-button" (click)="toggleMenu()">
+
+        <mat-icon>
+            menu
+        </mat-icon>
+
+    </button>
+
+    <div class="logo" (click)="goToDashboard()">
+
+        <div class="logo-icon">
+
+            <mat-icon>
+                account_balance_wallet
+            </mat-icon>
+
+        </div>
+
+        <div class="logo-text">
+
+            <span class="logo-title">
+                Expense Tracker
+            </span>
+
+            <span class="logo-subtitle">
+                Manage your spending
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="desktop-navigation">
+
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+
+            Dashboard
+
+        </a>
+<a class="disabled-link" (click)="$event.preventDefault()">Expenses</a>
+<a class="disabled-link" (click)="$event.preventDefault()">About</a>
+
+    </div>
+
+    <div class="profile-container">
+
+        <button mat-icon-button class="theme-button" (click)="toggleDarkMode()">
+
+            @if (darkMode) {
+
+            <mat-icon>
+                light_mode
+            </mat-icon>
+
+            } @else {
+
+            <mat-icon>
+                dark_mode
+            </mat-icon>
+
+            }
+
+        </button>
+
+        <button mat-icon-button class="profile-button" (click)="toggleProfile()" aria-label="Open profile menu">
+
+            <div class="profile-avatar">
+                AS
+            </div>
+
+            <mat-icon>
+                expand_more
+            </mat-icon>
+
+        </button>
+
+        @if (profileOpen()) {
+
+        <div class="profile-dropdown">
+
+            <button class="dropdown-item" (click)="openProfile()">
+
+                <mat-icon>
+                    person
+                </mat-icon>
+
+                <span>
+                    Profile
+                </span>
+
+            </button>
+
+            <button class="dropdown-item" (click)="openPersonalization()">
+
+                <mat-icon>
+                    tune
+                </mat-icon>
+
+                <span>
+                    Personalization
+                </span>
+
+            </button>
+
+            <button class="dropdown-item" (click)="openSettings()">
+
+                <mat-icon>
+                    settings
+                </mat-icon>
+
+                <span>
+                    Settings
+                </span>
+
+            </button>
+
+            <button class="dropdown-item" (click)="openHelp()">
+
+                <mat-icon>
+                    help_outline
+                </mat-icon>
+
+                <span>
+                    Help & FAQ
+                </span>
+
+            </button>
+
+            <div class="dropdown-divider"></div>
+
+            <button class="dropdown-item logout-item" (click)="logout()">
+
+                <mat-icon>
+                    logout
+                </mat-icon>
+
+                <span>
+                    Logout
+                </span>
+
+            </button>
+
+        </div>
+
+        }
+
+    </div>
+
+</mat-toolbar>
+
+
+@if (menuOpen()) {
+
+<div class="drawer-backdrop" (click)="closeMenu()">
+</div>
+
+<aside class="navigation-drawer">
+
+    <div class="drawer-header">
+
+        <div class="drawer-brand">
+
+            <div class="drawer-logo">
+
+                <mat-icon>
+                    account_balance_wallet
+                </mat-icon>
+
+            </div>
+
+            <div>
+
+                <h2>
+                    Expense Tracker
+                </h2>
+
+                <p>
+                    Manage your spending
+                </p>
+
+            </div>
+
+        </div>
+
+        <button mat-icon-button class="close-button" (click)="closeMenu()">
+
+            <mat-icon>
+                close
+            </mat-icon>
+
+        </button>
+
+    </div>
+
+    <div class="drawer-divider"></div>
+
+    <div class="drawer-section-title">
+        MAIN
+    </div>
+
+    <a class="drawer-item" routerLink="/dashboard" routerLinkActive="selected"
+        [routerLinkActiveOptions]="{ exact: true }" (click)="closeMenu()">
+
+        <mat-icon>
+            dashboard
+        </mat-icon>
+
+        <span>
+            Dashboard
+        </span>
+
+        <mat-icon class="drawer-arrow">
+            chevron_right
+        </mat-icon>
+
+    </a>
+
+    <a class="drawer-item" routerLink="/expenses" routerLinkActive="selected" (click)="closeMenu()">
+
+        <mat-icon>
+            receipt_long
+        </mat-icon>
+
+        <span>
+            Expenses
+        </span>
+
+        <mat-icon class="drawer-arrow">
+            chevron_right
+        </mat-icon>
+
+    </a>
+
+    <a class="drawer-item" routerLink="/reports" routerLinkActive="selected" (click)="closeMenu()">
+
+        <mat-icon>
+            bar_chart
+        </mat-icon>
+
+        <span>
+            Reports
+        </span>
+
+        <mat-icon class="drawer-arrow">
+            chevron_right
+        </mat-icon>
+
+    </a>
+
+    <a class="drawer-item" routerLink="/about" routerLinkActive="selected" (click)="closeMenu()">
+
+        <mat-icon>
+            info
+        </mat-icon>
+
+        <span>
+            About
+        </span>
+
+        <mat-icon class="drawer-arrow">
+            chevron_right
+        </mat-icon>
+
+    </a>
+
+    <div class="drawer-divider section-divider"></div>
+
+    <div class="drawer-section-title">
+        MORE
+    </div>
+
+    <button class="drawer-item" (click)="openSettings(); closeMenu()">
+
+        <mat-icon>
+            settings
+        </mat-icon>
+
+        <span>
+            Settings
+        </span>
+
+        <mat-icon class="drawer-arrow">
+            chevron_right
+        </mat-icon>
+
+    </button>
+
+    <button class="drawer-item" (click)="openHelp(); closeMenu()">
+
+        <mat-icon>
+            help_outline
+        </mat-icon>
+
+        <span>
+            Help & FAQ
+        </span>
+
+        <mat-icon class="drawer-arrow">
+            chevron_right
+        </mat-icon>
+
+    </button>
+
+    <div class="drawer-user">
+
+        <div class="drawer-user-avatar">
+            AS
+        </div>
+
+        <div class="drawer-user-info">
+
+            <strong>
+                Akash R S
+            </strong>
+
+            <span>
+                Active account
+            </span>
+
+        </div>
+
+        <button mat-icon-button class="drawer-logout" (click)="logout()">
+
+            <mat-icon>
+                logout
+            </mat-icon>
+
+        </button>
+
+    </div>
+
+</aside>
+
+}
+
+
+@if (showProfile) {
+
+<div class="modal-backdrop">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h2>
+                Profile
+            </h2>
+
+            <button mat-icon-button (click)="closeProfile()">
+
+                <mat-icon>
+                    close
+                </mat-icon>
+
+            </button>
+
+        </div>
+
+        <div class="profile-large">
+
+            <div class="profile-large-avatar">
+                AS
+            </div>
+
+            <div>
+
+                <h3>
+                    Akash R S
+                </h3>
+
+                <p>
+                    Expense Tracker User
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="profile-details">
+
+            <div class="profile-detail">
+
+                <span>
+                    Account Status
+                </span>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+            <div class="profile-detail">
+
+                <span>
+                    Application
+                </span>
+
+                <strong>
+                    Expense Tracker
+                </strong>
+
+            </div>
+
+        </div>
+
+        <button class="modal-close-button" (click)="closeProfile()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+}
+
+
+@if (showPersonalization) {
+
+<div class="modal-backdrop">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h2>
+                Personalization
+            </h2>
+
+            <button mat-icon-button (click)="closePersonalization()">
+
+                <mat-icon>
+                    close
+                </mat-icon>
+
+            </button>
+
+        </div>
+
+        <div class="settings-content">
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Currency
+                    </strong>
+
+                    <p>
+                        Choose your display currency
+                    </p>
+
+                </div>
+
+                <select [(ngModel)]="currency">
+
+                    <option value="₹">
+                        ₹ INR
+                    </option>
+
+                    <option value="$">
+                        $ USD
+                    </option>
+
+                    <option value="€">
+                        € EUR
+                    </option>
+
+                    <option value="£">
+                        £ GBP
+                    </option>
+
+                </select>
+
+            </div>
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Total Expenses
+                    </strong>
+
+                    <p>
+                        Show total expenses on dashboard
+                    </p>
+
+                </div>
+
+                <input type="checkbox" [(ngModel)]="showTotalExpenses">
+
+            </div>
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Number of Expenses
+                    </strong>
+
+                    <p>
+                        Show number of expenses
+                    </p>
+
+                </div>
+
+                <input type="checkbox" [(ngModel)]="showNumberOfExpenses">
+
+            </div>
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Highest Expense
+                    </strong>
+
+                    <p>
+                        Show highest expense
+                    </p>
+
+                </div>
+
+                <input type="checkbox" [(ngModel)]="showHighestExpense">
+
+            </div>
+
+            <div class="setting-row">
+
+                <div>
+
+                    <strong>
+                        Default View
+                    </strong>
+
+                    <p>
+                        Choose the default expense view
+                    </p>
+
+                </div>
+
+                <select [(ngModel)]="defaultView">
+
+                    <option value="All Expenses">
+                        All Expenses
+                    </option>
+
+                    <option value="Food">
+                        Food
+                    </option>
+
+                    <option value="Travel">
+                        Travel
+                    </option>
+
+                    <option value="Shopping">
+                        Shopping
+                    </option>
+
+                    <option value="Bills">
+                        Bills
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+        <button class="modal-close-button" (click)="closePersonalization()">
+
+            Done
+
+        </button>
+
+    </div>
+
+</div>
+
+}
+
+
+@if (showHelp) {
+
+<div class="modal-backdrop">
+
+    <div class="modal-card">
+
+        <div class="modal-header">
+
+            <h2>
+                Help & FAQ
+            </h2>
+
+            <button mat-icon-button (click)="closeHelp()">
+
+                <mat-icon>
+                    close
+                </mat-icon>
+
+            </button>
+
+        </div>
+
+        <div class="help-content">
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>
+                        What is Expense Tracker?
+                    </span>
+
+                    <mat-icon>
+                        help_outline
+                    </mat-icon>
+
+                </button>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>
+                        How do I add an expense?
+                    </span>
+
+                    <mat-icon>
+                        add
+                    </mat-icon>
+
+                </button>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>
+                        Can I edit an expense?
+                    </span>
+
+                    <mat-icon>
+                        edit
+                    </mat-icon>
+
+                </button>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>
+                        Can I delete an expense?
+                    </span>
+
+                    <mat-icon>
+                        delete
+                    </mat-icon>
+
+                </button>
+
+            </div>
+
+            <div class="faq-item">
+
+                <button class="faq-question">
+
+                    <span>
+                        Where are my expenses stored?
+                    </span>
+
+                    <mat-icon>
+                        storage
+                    </mat-icon>
+
+                </button>
+
+            </div>
+
+        </div>
+
+        <button class="modal-close-button" (click)="closeHelp()">
+
+            Close
+
+        </button>
+
+    </div>
+
+</div>
+
+}
+
+
+@if (showSettings) {
+
+<div class="modal-backdrop">
+
+    <div class="modal-card settings-modal">
+
+        <div class="modal-header">
+
+            <div class="settings-title">
+
+                <div class="settings-title-icon">
+
+                    <mat-icon>
+                        settings
+                    </mat-icon>
+
+                </div>
+
+                <div>
+
+                    <h2>
+                        Settings
+                    </h2>
+
+                    <p>
+                        Manage your application preferences
+                    </p>
+
+                </div>
+
+            </div>
+
+            <button mat-icon-button (click)="closeSettings()">
+
+                <mat-icon>
+                    close
+                </mat-icon>
+
+            </button>
+
+        </div>
+
+        <div class="settings-content">
+
+            <div class="settings-section-title">
+
+                <mat-icon>
+                    palette
+                </mat-icon>
+
+                <span>
+                    Appearance
+                </span>
+
+            </div>
+
+            <div class="setting-card">
+
+                <div class="setting-icon appearance-icon">
+
+                    <mat-icon>
+                        dark_mode
+                    </mat-icon>
+
+                </div>
+
+                <div class="setting-info">
+
+                    <strong>
+                        Theme
+                    </strong>
+
+                    <p>
+                        Choose light or dark appearance
+                    </p>
+
+                </div>
+
+                <mat-button-toggle-group name="theme" [value]="darkMode ? 'dark' : 'light'"
+                    (change)="changeTheme($event.value)" aria-label="Theme">
+
+                    <mat-button-toggle value="light">
+
+                        <mat-icon>
+                            light_mode
+                        </mat-icon>
+
+                        Light
+
+                    </mat-button-toggle>
+
+                    <mat-button-toggle value="dark">
+
+                        <mat-icon>
+                            dark_mode
+                        </mat-icon>
+
+                        Dark
+
+                    </mat-button-toggle>
+
+                </mat-button-toggle-group>
+
+            </div>
+
+            <div class="settings-section-title notifications-title">
+
+                <mat-icon>
+                    notifications
+                </mat-icon>
+
+                <span>
+                    Notifications
+                </span>
+
+            </div>
+
+            <div class="setting-card">
+
+                <div class="setting-icon notification-icon">
+
+                    <mat-icon>
+                        notifications_active
+                    </mat-icon>
+
+                </div>
+
+                <div class="setting-info">
+
+                    <strong>
+                        Notifications
+                    </strong>
+
+                    <p>
+                        Enable application notifications
+                    </p>
+
+                </div>
+
+                <mat-button-toggle-group name="notifications" [value]="notifications ? 'on' : 'off'"
+                    (change)="changeNotifications($event.value)" aria-label="Notifications">
+
+                    <mat-button-toggle value="on">
+                        On
+                    </mat-button-toggle>
+
+                    <mat-button-toggle value="off">
+                        Off
+                    </mat-button-toggle>
+
+                </mat-button-toggle-group>
+
+            </div>
+
+        </div>
+
+        <button class="modal-close-button" (click)="closeSettings()">
+
+            Done
+
+        </button>
+
+    </div>
+
+</div>
+
+}

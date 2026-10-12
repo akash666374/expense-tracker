@@ -1,0 +1,346 @@
+<app-navbar></app-navbar>
+
+
+<div class="dashboard">
+
+
+
+    PAGE HEADER
+
+
+    <div class="dashboard-header">
+
+        <div>
+
+            <p class="eyebrow">
+                OVERVIEW
+            </p>
+
+            <h1>
+                Expense Dashboard
+            </h1>
+
+            <p class="welcome-text">
+                Track your spending and understand
+                where your money goes.
+            </p>
+
+        </div>
+
+
+        <div class="header-badge">
+
+            <span class="status-dot"></span>
+
+            Expense Tracking Active
+
+        </div>
+
+    </div>
+
+
+
+    <!-- SUMMARY CARDS -->
+
+
+    <div class="summary">
+
+
+        <!-- TOTAL EXPENSES -->
+
+        <mat-card class="summary-card">
+
+            <div class="summary-card-top">
+
+                <div class="summary-icon total-icon">
+
+                    <mat-icon>
+                        account_balance_wallet
+                    </mat-icon>
+
+                </div>
+
+                <span class="summary-label">
+                    TOTAL EXPENSES
+                </span>
+
+            </div>
+
+
+            <div class="summary-value">
+
+                ₹{{ expenseService.totalExpenses() }}
+
+            </div>
+
+
+            <p class="summary-description">
+
+                Your total spending
+
+            </p>
+
+        </mat-card>
+
+
+
+        <!-- NUMBER OF EXPENSES -->
+
+        <mat-card class="summary-card">
+
+            <div class="summary-card-top">
+
+                <div class="summary-icon count-icon">
+
+                    <mat-icon>
+                        receipt_long
+                    </mat-icon>
+
+                </div>
+
+                <span class="summary-label">
+                    NUMBER OF EXPENSES
+                </span>
+
+            </div>
+
+
+            <div class="summary-value">
+
+                {{ expenseService.expenses().length }}
+
+            </div>
+
+
+            <p class="summary-description">
+
+                Recorded transactions
+
+            </p>
+
+        </mat-card>
+
+
+
+        <!-- HIGHEST EXPENSE -->
+
+        <mat-card class="summary-card">
+
+            <div class="summary-card-top">
+
+                <div class="summary-icon highest-icon">
+
+                    <mat-icon>
+                        trending_up
+                    </mat-icon>
+
+                </div>
+
+                <span class="summary-label">
+                    HIGHEST EXPENSE
+                </span>
+
+            </div>
+
+
+            <div class="summary-value">
+
+                ₹{{ expenseService.highestExpense() }}
+
+            </div>
+
+
+            <p class="summary-description">
+
+                Largest single expense
+
+            </p>
+
+        </mat-card>
+
+
+    </div>
+
+
+
+    CATEGORY ANALYSIS
+
+
+    <div class="chart-card">
+
+
+        <!-- CHART HEADER -->
+
+        <div class="chart-header">
+
+            <div>
+
+                <h2>
+                    Expenses by Category
+                </h2>
+
+                <p>
+                    See how your spending is distributed.
+                </p>
+
+            </div>
+
+
+            <div class="chart-icon">
+
+                <mat-icon>
+                    pie_chart
+                </mat-icon>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- EXPENSE DATA EXISTS -->
+
+
+        @if (
+        expenseService.expenses().length > 0
+        ) {
+
+
+        <div class="donut-section">
+
+
+            <!-- DONUT CHART -->
+
+            <div class="donut-wrapper">
+
+                <div class="donut-chart" [style.background]="
+                        expenseService.categoryChart()
+                    ">
+
+                    <div class="donut-center">
+
+                        <strong>
+
+                            ₹{{ expenseService.totalExpenses() }}
+
+                        </strong>
+
+                        <span>
+
+                            Total spending
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- CATEGORY LIST -->
+
+            <div class="category-section">
+
+                <h3>
+                    Spending breakdown
+                </h3>
+
+
+                <div class="category-list">
+
+
+                    @for (
+                    item of expenseService.categoryTotals();
+                    track item.category;
+                    let i = $index
+                    ) {
+
+
+                    <div class="category-item">
+
+
+                        <div class="category-left">
+
+                            <span class="category-color" [style.background]="
+                                    expenseService
+                                    .getCategoryColor(i)
+                                ">
+                            </span>
+
+
+                            <span class="category-name">
+
+                                {{ item.category }}
+
+                            </span>
+
+                        </div>
+
+
+                        <strong>
+
+                            ₹{{ item.amount }}
+
+                        </strong>
+
+
+                    </div>
+
+
+                    }
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        } @else {
+
+
+
+        <!-- NO EXPENSES -->
+
+
+        <div class="no-data">
+
+
+            <div class="no-data-icon">
+
+                <mat-icon>
+                    receipt_long
+                </mat-icon>
+
+            </div>
+
+
+            <h3>
+
+                No expenses yet
+
+            </h3>
+
+
+            <p>
+
+                Add your first expense to see
+                your spending analysis here.
+
+            </p>
+
+
+        </div>
+
+
+        }
+
+
+    </div>
+
+
+</div>

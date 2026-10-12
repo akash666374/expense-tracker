@@ -1,3 +1,94 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+/* GLOBAL DARK MODE */
+
+/* GLOBAL DARK MODE */
+
+body.dark-mode {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+/* DASHBOARD BACKGROUND */
+
+body.dark-mode .dashboard,
+body.dark-mode .expenses-page,
+body.dark-mode .about-page {
+  background-color: #0f172a;
+  color: #f8fafc;
+}
+
+/* PAGE HEADINGS */
+
+body.dark-mode .dashboard h1,
+body.dark-mode .dashboard h2,
+body.dark-mode .dashboard h3,
+body.dark-mode .welcome h1,
+body.dark-mode .welcome h2,
+body.dark-mode .expenses-page h2,
+body.dark-mode .about-page h2 {
+  color: #f8fafc !important;
+}
+
+/* SUMMARY CARDS */
+
+body.dark-mode .summary-card {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border: 1px solid #334155;
+}
+
+body.dark-mode .summary-card h3 {
+  color: #cbd5e1 !important;
+}
+
+body.dark-mode .summary-card h1,
+body.dark-mode .summary-card h2,
+body.dark-mode .summary-card .amount,
+body.dark-mode .summary-card strong {
+  color: #ffffff !important;
+}
+
+body.dark-mode .summary-card p {
+  color: #cbd5e1 !important;
+}
+
+/* CATEGORY ANALYSIS CARD */
+
+body.dark-mode .category-card,
+body.dark-mode .chart-card,
+body.dark-mode .list-section,
+body.dark-mode .about-card {
+  background-color: #1e293b !important;
+  color: #f8fafc !important;
+  border-color: #334155;
+}
+
+body.dark-mode .category-card *,
+body.dark-mode .chart-card * {
+  color: #f8fafc;
+}
+
+/* DESCRIPTION TEXT */
+
+body.dark-mode .welcome p,
+body.dark-mode .about-intro,
+body.dark-mode .subtitle {
+  color: #cbd5e1 !important;
+}
+
+/* INPUTS */
+
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+  background-color: #1e293b;
+  color: #f8fafc;
+  border-color: #475569;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #94a3b8;
+}

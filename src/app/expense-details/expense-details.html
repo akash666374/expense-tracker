@@ -1,0 +1,73 @@
+<div class="details-container">
+
+    <div class="details-card">
+
+        <h2>Expense Details</h2>
+
+        @if (expense) {
+
+        <div class="detail-row">
+
+            <span>ID</span>
+
+            <strong>
+                {{ expense.id }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>Name</span>
+
+            <strong>
+                {{ expense.name }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>Amount</span>
+
+            <strong>
+                ₹{{ expense.amount }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>Category</span>
+
+            <strong>
+                {{ expense.category }}
+            </strong>
+
+        </div>
+
+
+        <div class="detail-row">
+
+            <span>Date</span>
+
+            <strong>
+                {{ expense.date }}
+            </strong>
+
+        </div>
+
+        } @else {
+
+        <p class="not-found">
+            Expense not found.
+        </p>
+
+        }
+
+    </div>
+
+</div>

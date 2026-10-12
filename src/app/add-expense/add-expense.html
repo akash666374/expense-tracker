@@ -1,0 +1,284 @@
+<div class="add-expense">
+
+    <div class="form-header">
+
+        <div class="form-title">
+
+            <div class="title-icon">
+
+                <mat-icon>
+                    add
+                </mat-icon>
+
+            </div>
+
+            <div>
+
+                <h2>
+                    {{ title() }}
+                </h2>
+
+                <p>
+                    Add your expense details below.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <form [formGroup]="expenseForm">
+
+
+        <div class="form-group">
+
+            <mat-form-field appearance="outline" class="full-width">
+
+                <mat-label>
+                    Expense Name
+                </mat-label>
+
+                <mat-icon matPrefix>
+                    receipt
+                </mat-icon>
+
+                <input matInput type="text" placeholder="Enter expense name" formControlName="name">
+
+                @if (
+                expenseForm.controls.name.touched &&
+                expenseForm.controls.name.invalid
+                ) {
+
+                <mat-error>
+                    Please enter an expense name.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <mat-form-field appearance="outline" class="full-width">
+
+                <mat-label>
+                    Amount (₹)
+                </mat-label>
+
+                <mat-icon matPrefix>
+                    currency_rupee
+                </mat-icon>
+
+                <input matInput type="number" placeholder="Enter amount" formControlName="amount">
+
+                @if (
+                expenseForm.controls.amount.touched &&
+                expenseForm.controls.amount.hasError('required')
+                ) {
+
+                <mat-error>
+                    Please enter an amount.
+                </mat-error>
+
+                }
+
+                @if (
+                expenseForm.controls.amount.touched &&
+                expenseForm.controls.amount.hasError('min')
+                ) {
+
+                <mat-error>
+                    Amount must be greater than 0.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <mat-form-field appearance="outline" class="full-width">
+
+                <mat-label>
+                    Category
+                </mat-label>
+
+                <mat-icon matPrefix>
+                    category
+                </mat-icon>
+
+                <mat-select formControlName="category">
+
+                    <mat-option value="">
+                        Select category
+                    </mat-option>
+
+                    <mat-option value="Food">
+                        Food
+                    </mat-option>
+
+                    <mat-option value="Travel">
+                        Travel
+                    </mat-option>
+
+                    <mat-option value="Shopping">
+                        Shopping
+                    </mat-option>
+
+                    <mat-option value="Bills">
+                        Bills
+                    </mat-option>
+
+                    <mat-option value="Entertainment">
+                        Entertainment
+                    </mat-option>
+
+                    <mat-option value="Other">
+                        Other
+                    </mat-option>
+
+                </mat-select>
+
+                @if (
+                expenseForm.controls.category.touched &&
+                expenseForm.controls.category.invalid
+                ) {
+
+                <mat-error>
+                    Please select a category.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+        </div>
+
+
+        <div class="form-group">
+
+            <mat-form-field appearance="outline" class="full-width">
+
+                <mat-label>
+                    Date
+                </mat-label>
+
+                <mat-icon matPrefix>
+                    calendar_today
+                </mat-icon>
+
+                <input matInput type="date" formControlName="date">
+
+                @if (
+                expenseForm.controls.date.touched &&
+                expenseForm.controls.date.invalid
+                ) {
+
+                <mat-error>
+                    Please select a date.
+                </mat-error>
+
+                }
+
+            </mat-form-field>
+
+        </div>
+
+
+        <div class="form-actions">
+
+            @if (editingId === null) {
+
+            <button mat-flat-button type="button" class="add-button" (click)="addExpense()">
+
+                <mat-icon>
+                    add
+                </mat-icon>
+
+                Add Expense
+
+            </button>
+
+            } @else {
+
+            <button mat-flat-button type="button" class="add-button" (click)="addExpense()">
+
+                <mat-icon>
+                    save
+                </mat-icon>
+
+                Update Expense
+
+            </button>
+
+            }
+
+
+            <button mat-stroked-button type="button" class="clear-button" (click)="clearForm()">
+
+                <mat-icon>
+                    refresh
+                </mat-icon>
+
+                Clear
+
+            </button>
+
+        </div>
+
+    </form>
+
+
+    @if (showUpdateConfirmation) {
+
+    <div class="dialog-overlay">
+
+        <div class="confirmation-dialog">
+
+            <div class="dialog-icon">
+
+                <mat-icon>
+                    edit
+                </mat-icon>
+
+            </div>
+
+            <h3>
+                Confirm Changes
+            </h3>
+
+            <p>
+                Are you sure you want to update this expense?
+            </p>
+
+            <div class="dialog-actions">
+
+                <button mat-stroked-button type="button" class="dialog-cancel" (click)="cancelUpdate()">
+
+                    Cancel
+
+                </button>
+
+                <button mat-flat-button type="button" class="dialog-confirm" (click)="confirmUpdate()">
+
+                    Confirm
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>
