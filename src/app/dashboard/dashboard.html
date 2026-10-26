@@ -1,346 +1,331 @@
 <app-navbar></app-navbar>
 
+<div class="min-h-[calc(100vh-68px)] bg-emerald-50 p-4 sm:p-6 lg:p-10">
 
-<div class="dashboard">
+  <div class="mx-auto max-w-[1400px]">
 
+    <!-- PAGE HEADER -->
+    <div class="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
 
+      <div>
+        <p class="mb-2 text-xs font-bold tracking-wider text-emerald-700">
+          OVERVIEW
+        </p>
 
-    PAGE HEADER
+        <h1 class="text-2xl font-bold text-slate-900 sm:text-3xl">
+          Expense Dashboard
+        </h1>
 
+        <p class="mt-2 text-sm text-slate-600 sm:text-base">
+          Track your spending, understand your habits, and stay in control of your money.
+        </p>
+      </div>
 
-    <div class="dashboard-header">
+      <div class="flex items-center gap-2 self-start rounded-lg border border-emerald-200 bg-white px-4 py-3 sm:self-center">
 
-        <div>
+        <span class="h-2.5 w-2.5 rounded-full bg-emerald-600"></span>
 
-            <p class="eyebrow">
-                OVERVIEW
-            </p>
+        <span class="text-sm font-medium text-slate-700">
+          Expense Tracking Active
+        </span>
 
-            <h1>
-                Expense Dashboard
-            </h1>
-
-            <p class="welcome-text">
-                Track your spending and understand
-                where your money goes.
-            </p>
-
-        </div>
-
-
-        <div class="header-badge">
-
-            <span class="status-dot"></span>
-
-            Expense Tracking Active
-
-        </div>
+      </div>
 
     </div>
-
 
 
     <!-- SUMMARY CARDS -->
+    <div class="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
 
 
-    <div class="summary">
+      <!-- TOTAL EXPENSES -->
+      <div class="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
+
+        <div class="mb-4 flex items-center justify-between">
+
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+            <mat-icon>account_balance_wallet</mat-icon>
+          </div>
+
+          <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            TOTAL
+          </span>
+
+        </div>
+
+        <p class="text-sm font-medium text-slate-500">
+          Total Expenses
+        </p>
+
+        <h2 class="mt-2 break-words text-3xl font-bold text-slate-900">
+          ₹{{ expenseService.totalExpenses() }}
+        </h2>
+
+        <div class="mt-4 flex items-center gap-2 border-t border-slate-100 pt-4">
+
+          <mat-icon class="!text-emerald-700">payments</mat-icon>
+
+          <p class="text-xs text-slate-500">
+            Your total recorded spending
+          </p>
+
+        </div>
+
+      </div>
 
 
-        <!-- TOTAL EXPENSES -->
+      <!-- NUMBER OF EXPENSES -->
+      <div class="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
 
-        <mat-card class="summary-card">
+        <div class="mb-4 flex items-center justify-between">
 
-            <div class="summary-card-top">
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+            <mat-icon>receipt_long</mat-icon>
+          </div>
 
-                <div class="summary-icon total-icon">
+          <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            RECORDS
+          </span>
 
-                    <mat-icon>
-                        account_balance_wallet
-                    </mat-icon>
+        </div>
 
-                </div>
+        <p class="text-sm font-medium text-slate-500">
+          Number of Expenses
+        </p>
 
-                <span class="summary-label">
-                    TOTAL EXPENSES
-                </span>
+        <h2 class="mt-2 text-3xl font-bold text-slate-900">
+          {{ expenseService.expenses().length }}
+        </h2>
 
-            </div>
+        <div class="mt-4 flex items-center gap-2 border-t border-slate-100 pt-4">
 
+          <mat-icon class="!text-emerald-700">format_list_bulleted</mat-icon>
 
-            <div class="summary-value">
+          <p class="text-xs text-slate-500">
+            Recorded transactions
+          </p>
 
-                ₹{{ expenseService.totalExpenses() }}
+        </div>
 
-            </div>
-
-
-            <p class="summary-description">
-
-                Your total spending
-
-            </p>
-
-        </mat-card>
-
+      </div>
 
 
-        <!-- NUMBER OF EXPENSES -->
+      <!-- HIGHEST EXPENSE -->
+      <div class="rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
 
-        <mat-card class="summary-card">
+        <div class="mb-4 flex items-center justify-between">
 
-            <div class="summary-card-top">
+          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+            <mat-icon>trending_up</mat-icon>
+          </div>
 
-                <div class="summary-icon count-icon">
+          <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+            HIGHEST
+          </span>
 
-                    <mat-icon>
-                        receipt_long
-                    </mat-icon>
+        </div>
 
-                </div>
+        <p class="text-sm font-medium text-slate-500">
+          Highest Expense
+        </p>
 
-                <span class="summary-label">
-                    NUMBER OF EXPENSES
-                </span>
+        <h2 class="mt-2 break-words text-3xl font-bold text-slate-900">
+          ₹{{ expenseService.highestExpense() }}
+        </h2>
 
-            </div>
+        <div class="mt-4 flex items-center gap-2 border-t border-slate-100 pt-4">
 
+          <mat-icon class="!text-emerald-700">analytics</mat-icon>
 
-            <div class="summary-value">
+          <p class="text-xs text-slate-500">
+            Your largest single expense
+          </p>
 
-                {{ expenseService.expenses().length }}
+        </div>
 
-            </div>
-
-
-            <p class="summary-description">
-
-                Recorded transactions
-
-            </p>
-
-        </mat-card>
-
-
-
-        <!-- HIGHEST EXPENSE -->
-
-        <mat-card class="summary-card">
-
-            <div class="summary-card-top">
-
-                <div class="summary-icon highest-icon">
-
-                    <mat-icon>
-                        trending_up
-                    </mat-icon>
-
-                </div>
-
-                <span class="summary-label">
-                    HIGHEST EXPENSE
-                </span>
-
-            </div>
-
-
-            <div class="summary-value">
-
-                ₹{{ expenseService.highestExpense() }}
-
-            </div>
-
-
-            <p class="summary-description">
-
-                Largest single expense
-
-            </p>
-
-        </mat-card>
-
+      </div>
 
     </div>
 
 
+    <!-- CATEGORY ANALYSIS CARD -->
+    <div class="overflow-hidden rounded-xl border border-slate-200 bg-white">
 
-    CATEGORY ANALYSIS
+      <!-- CHART HEADER -->
+      <div class="flex items-center justify-between gap-4 border-b border-slate-200 p-5 sm:p-6">
 
+        <div>
+          <p class="mb-1 text-xs font-bold tracking-wider text-emerald-700">
+            SPENDING INSIGHTS
+          </p>
 
-    <div class="chart-card">
+          <h2 class="text-lg font-bold text-slate-900 sm:text-xl">
+            Expenses by Category
+          </h2>
 
-
-        <!-- CHART HEADER -->
-
-        <div class="chart-header">
-
-            <div>
-
-                <h2>
-                    Expenses by Category
-                </h2>
-
-                <p>
-                    See how your spending is distributed.
-                </p>
-
-            </div>
-
-
-            <div class="chart-icon">
-
-                <mat-icon>
-                    pie_chart
-                </mat-icon>
-
-            </div>
-
+          <p class="mt-2 text-sm text-slate-500">
+            See how your spending is distributed.
+          </p>
         </div>
 
-
-
-        <!-- EXPENSE DATA EXISTS -->
-
-
-        @if (
-        expenseService.expenses().length > 0
-        ) {
-
-
-        <div class="donut-section">
-
-
-            <!-- DONUT CHART -->
-
-            <div class="donut-wrapper">
-
-                <div class="donut-chart" [style.background]="
-                        expenseService.categoryChart()
-                    ">
-
-                    <div class="donut-center">
-
-                        <strong>
-
-                            ₹{{ expenseService.totalExpenses() }}
-
-                        </strong>
-
-                        <span>
-
-                            Total spending
-
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <!-- CATEGORY LIST -->
-
-            <div class="category-section">
-
-                <h3>
-                    Spending breakdown
-                </h3>
-
-
-                <div class="category-list">
-
-
-                    @for (
-                    item of expenseService.categoryTotals();
-                    track item.category;
-                    let i = $index
-                    ) {
-
-
-                    <div class="category-item">
-
-
-                        <div class="category-left">
-
-                            <span class="category-color" [style.background]="
-                                    expenseService
-                                    .getCategoryColor(i)
-                                ">
-                            </span>
-
-
-                            <span class="category-name">
-
-                                {{ item.category }}
-
-                            </span>
-
-                        </div>
-
-
-                        <strong>
-
-                            ₹{{ item.amount }}
-
-                        </strong>
-
-
-                    </div>
-
-
-                    }
-
-
-                </div>
-
-            </div>
-
-
+        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+          <mat-icon>pie_chart</mat-icon>
         </div>
 
-
-        } @else {
-
+      </div>
 
 
-        <!-- NO EXPENSES -->
+      <!-- EXPENSE DATA EXISTS -->
+      @if (expenseService.expenses().length > 0) {
+
+        <div class="grid grid-cols-1 items-center gap-8 p-5 sm:p-7 lg:grid-cols-2 lg:gap-12">
 
 
-        <div class="no-data">
+          <!-- DONUT CHART -->
+          <div class="flex min-w-0 flex-col items-center justify-center">
 
-
-            <div class="no-data-icon">
-
-                <mat-icon>
-                    receipt_long
-                </mat-icon>
-
-            </div>
-
-
-            <h3>
-
-                No expenses yet
-
-            </h3>
-
-
-            <p>
-
-                Add your first expense to see
-                your spending analysis here.
-
+            <p class="mb-5 self-start text-sm font-semibold text-slate-700">
+              Spending overview
             </p>
 
+            <div
+              class="flex h-[230px] w-[230px] items-center justify-center rounded-full sm:h-[270px] sm:w-[270px]"
+              [style.background]="expenseService.categoryChart()">
+
+              <div class="flex h-[145px] w-[145px] flex-col items-center justify-center rounded-full bg-white sm:h-[165px] sm:w-[165px]">
+
+                <span class="mb-2 text-xs font-medium text-slate-500">
+                  Total spent
+                </span>
+
+                <strong class="max-w-full break-all px-2 text-center text-xl font-bold text-slate-900 sm:text-2xl">
+                  ₹{{ expenseService.totalExpenses() }}
+                </strong>
+
+                <span class="mt-2 text-xs text-slate-500">
+                  {{ expenseService.expenses().length }} transactions
+                </span>
+
+              </div>
+
+            </div>
+
+            <p class="mt-4 text-center text-xs text-slate-500">
+              Your spending across all categories
+            </p>
+
+          </div>
+
+
+          <!-- CATEGORY BREAKDOWN -->
+          <div class="min-w-0">
+
+            <div class="mb-4 flex items-center justify-between gap-3">
+
+              <h3 class="text-sm font-bold text-slate-800">
+                Spending breakdown
+              </h3>
+
+              <span class="rounded-full bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">
+                {{ expenseService.categoryTotals().length }} categories
+              </span>
+
+            </div>
+
+            <div class="flex flex-col gap-2">
+
+              @for (
+                item of expenseService.categoryTotals();
+                track item.category;
+                let i = $index
+              ) {
+
+                <div class="flex items-center justify-between gap-3 rounded-lg bg-slate-50 px-3 py-3 sm:px-4">
+
+                  <div class="flex min-w-0 items-center gap-3">
+
+                    <span
+                      class="h-3 w-3 shrink-0 rounded-full"
+                      [style.background]="expenseService.getCategoryColor(i)">
+                    </span>
+
+                    <span class="truncate text-sm font-medium text-slate-600">
+                      {{ item.category }}
+                    </span>
+
+                  </div>
+
+                  <strong class="shrink-0 text-sm font-semibold text-slate-800">
+                    ₹{{ item.amount }}
+                  </strong>
+
+                </div>
+
+              }
+
+            </div>
+
+
+            <!-- SPENDING TIP -->
+            <div class="mt-5 rounded-lg border border-emerald-200 bg-emerald-50 p-4">
+
+              <div class="flex items-start gap-3">
+
+                <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white text-emerald-700">
+                  <mat-icon>lightbulb</mat-icon>
+                </div>
+
+                <div>
+                  <p class="text-sm font-semibold text-emerald-900">
+                    Spending insight
+                  </p>
+
+                  <p class="mt-1 text-sm leading-5 text-emerald-800">
+                    Review your category breakdown regularly to understand where your money goes.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
 
         </div>
 
+      } @else {
 
-        }
+        <!-- EMPTY STATE -->
+        <div class="flex flex-col items-center justify-center px-6 py-16 text-center">
 
+          <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+            <mat-icon class="!text-[32px]">receipt_long</mat-icon>
+          </div>
+
+          <h3 class="text-base font-semibold text-slate-800">
+            No expenses yet
+          </h3>
+
+          <p class="mt-2 max-w-sm text-sm leading-6 text-slate-500">
+            Add your first expense to see your spending analysis here.
+          </p>
+
+        </div>
+
+      }
 
     </div>
 
+
+    <!-- FOOTER -->
+    <div class="mt-6 flex flex-col justify-between gap-2 text-sm text-slate-500 sm:flex-row sm:items-center">
+
+      <p>Expense Dashboard</p>
+
+      <p>Track smart. Spend wisely.</p>
+
+    </div>
+
+  </div>
 
 </div>

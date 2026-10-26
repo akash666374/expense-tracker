@@ -1,385 +1,232 @@
 <app-navbar></app-navbar>
 
-
-
-<div class="about-page">
-
-
-
-
-    <section class="hero-section">
-
-        <div class="hero-content">
-
-
-
-            <div class="hero-badge">
-
-                <mat-icon>
-                    account_balance_wallet
-                </mat-icon>
-
-                <span>
-                    Simple. Smart. Organized.
-                </span>
-
-            </div>
-
-
-
-
-            <h1>
-
-                Take control of
-
-                <span>
-                    your expenses.
-                </span>
-
-            </h1>
-
-
-
-            <p class="hero-description">
-
-                Expense Tracker helps you record your
-                spending, organize your expenses and
-                understand your financial habits from
-                one simple dashboard.
-
-            </p>
-
-
-
-            <div class="hero-buttons">
-
-                <a mat-flat-button class="primary-button" routerLink="/expenses">
-
-                    <mat-icon>
-                        add
-                    </mat-icon>
-
-                    Add an Expense
-
-                </a>
-
-
-                <a mat-stroked-button class="secondary-button" routerLink="/dashboard">
-
-                    <mat-icon>
-                        dashboard
-                    </mat-icon>
-
-                    View Dashboard
-
-                </a>
-
-            </div>
-
-
-            <div class="hero-stats">
-
-
-                <div class="hero-stat">
-
-                    <mat-icon>
-                        check_circle
-                    </mat-icon>
-
-                    <div>
-
-                        <strong>
-                            Easy
-                        </strong>
-
-                        <span>
-                            to use
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="hero-stat">
-
-                    <mat-icon>
-                        bolt
-                    </mat-icon>
-
-                    <div>
-
-                        <strong>
-                            Fast
-                        </strong>
-
-                        <span>
-                            tracking
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="hero-stat">
-
-                    <mat-icon>
-                        insights
-                    </mat-icon>
-
-                    <div>
-
-                        <strong>
-                            Clear
-                        </strong>
-
-                        <span>
-                            insights
-                        </span>
-
-                    </div>
-
-                </div>
-
-            </div>
+<div class="min-h-screen bg-slate-50 text-slate-800">
+
+  <!-- Hero Section -->
+  <section class="bg-emerald-50 px-5 py-12 sm:px-8 lg:px-16">
+
+    <div class="mx-auto grid max-w-6xl grid-cols-1 items-center gap-10 lg:grid-cols-2">
+
+      <!-- Hero Content -->
+      <div class="text-center lg:text-left">
+
+        <div class="mb-4 inline-flex items-center gap-2 rounded-lg bg-white px-3 py-2 text-sm font-semibold text-emerald-700">
+          <mat-icon>account_balance_wallet</mat-icon>
+          Simple. Smart. Organized.
+        </div>
+
+        <h1 class="text-4xl font-bold leading-tight text-slate-900 sm:text-5xl">
+          Take control of
+          <span class="block text-emerald-700">your expenses.</span>
+        </h1>
+
+        <p class="mx-auto mt-5 max-w-xl text-base leading-7 text-slate-600 lg:mx-0">
+          Expense Tracker helps you record your spending, organize your expenses
+          and understand your financial habits from one simple dashboard.
+        </p>
+
+        <!-- Navigation Buttons -->
+        <div class="mt-7 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+
+          <a
+            mat-flat-button
+            routerLink="/expenses"
+            class="!flex !min-h-11 !items-center !justify-center !gap-2 !rounded-lg !bg-emerald-600 !px-5 !font-semibold !text-white">
+            <mat-icon>add</mat-icon>
+            Add an Expense
+          </a>
+
+          <a
+            mat-stroked-button
+            routerLink="/dashboard"
+            class="!flex !min-h-11 !items-center !justify-center !gap-2 !rounded-lg !border !border-slate-300 !bg-white !px-5 !font-semibold !text-slate-700">
+            <mat-icon>dashboard</mat-icon>
+            View Dashboard
+          </a>
 
         </div>
 
+        <!-- Highlights -->
+        <div class="mt-8 flex flex-wrap justify-center gap-6 lg:justify-start">
 
-        <div class="hero-visual">
+          <div class="flex items-center gap-2">
+            <mat-icon class="!text-emerald-700">check_circle</mat-icon>
+            <span class="text-sm font-medium">Easy to use</span>
+          </div>
 
-            <div class="dashboard-preview">
+          <div class="flex items-center gap-2">
+            <mat-icon class="!text-emerald-700">bolt</mat-icon>
+            <span class="text-sm font-medium">Fast tracking</span>
+          </div>
 
-
-
-                <div class="preview-header">
-
-                    <div>
-
-                        <span class="preview-label">
-                            OVERVIEW
-                        </span>
-
-                        <h3>
-                            Your finances
-                        </h3>
-
-                    </div>
-
-
-                    <div class="preview-icon">
-
-                        <mat-icon>
-                            account_balance_wallet
-                        </mat-icon>
-
-                    </div>
-
-                </div>
-
-
-
-
-                <div class="preview-card">
-
-                    <span>
-                        Total Expenses
-                    </span>
-
-                    <strong>
-                        ₹18,500
-                    </strong>
-
-                    <div class="preview-progress">
-
-                        <span></span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="preview-grid">
-
-
-                    <div class="mini-card">
-
-                        <mat-icon>
-                            receipt_long
-                        </mat-icon>
-
-                        <strong>
-                            24
-                        </strong>
-
-                        <span>
-                            Expenses
-                        </span>
-
-                    </div>
-
-
-                    <div class="mini-card">
-
-                        <mat-icon>
-                            trending_up
-                        </mat-icon>
-
-                        <strong>
-                            ₹2,500
-                        </strong>
-
-                        <span>
-                            Highest
-                        </span>
-
-                    </div>
-
-                </div>
-
-
-
-
-                <div class="preview-chart">
-
-                    <div class="chart-title">
-
-                        <span>
-                            Spending overview
-                        </span>
-
-                        <mat-icon>
-                            more_horiz
-                        </mat-icon>
-
-                    </div>
-
-
-                    <div class="fake-chart">
-
-                        <div class="chart-bar bar-one"></div>
-
-                        <div class="chart-bar bar-two"></div>
-
-                        <div class="chart-bar bar-three"></div>
-
-                        <div class="chart-bar bar-four"></div>
-
-                        <div class="chart-bar bar-five"></div>
-
-                        <div class="chart-bar bar-six"></div>
-
-                    </div>
-
-                </div>
-
-            </div>
+          <div class="flex items-center gap-2">
+            <mat-icon class="!text-emerald-700">insights</mat-icon>
+            <span class="text-sm font-medium">Clear insights</span>
+          </div>
 
         </div>
 
-    </section>
+      </div>
 
+      <!-- Dashboard Preview -->
+      <div class="mx-auto w-full max-w-md rounded-xl border border-slate-200 bg-white p-5 sm:p-6">
 
+        <div class="flex items-center justify-between">
 
-
-    <section class="section">
-
-
-
-
-        <div class="section-heading">
-
-            <span class="section-label">
-                FEATURES
-            </span>
-
-            <h2>
-                Everything you need to
-                manage your spending
+          <div>
+            <p class="text-xs font-semibold text-slate-500">OVERVIEW</p>
+            <h2 class="mt-1 text-xl font-bold text-slate-900">
+              Your finances
             </h2>
+          </div>
 
-            <p>
-                Designed to make everyday expense
-                tracking simple and convenient.
-            </p>
+          <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+            <mat-icon>account_balance_wallet</mat-icon>
+          </div>
 
         </div>
 
+        <!-- Total Expenses -->
+        <div class="mt-5 rounded-lg bg-emerald-600 p-5 text-white">
+
+          <p class="text-sm text-emerald-50">Total Expenses</p>
+
+          <h3 class="mt-2 text-3xl font-bold">₹18,500</h3>
+
+          <p class="mt-2 text-xs text-emerald-50">
+            Spending overview
+          </p>
+
+        </div>
+
+        <!-- Summary Cards -->
+        <div class="mt-4 grid grid-cols-2 gap-3">
+
+          <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+
+            <mat-icon class="!text-emerald-700">receipt_long</mat-icon>
+
+            <h3 class="mt-2 text-xl font-bold text-slate-900">24</h3>
+
+            <p class="mt-1 text-sm text-slate-500">Expenses</p>
+
+          </div>
+
+          <div class="rounded-lg border border-slate-200 bg-slate-50 p-4">
+
+            <mat-icon class="!text-teal-700">trending_up</mat-icon>
+
+            <h3 class="mt-2 text-xl font-bold text-slate-900">₹2,500</h3>
+
+            <p class="mt-1 text-sm text-slate-500">Highest</p>
+
+          </div>
+
+        </div>
+
+        <!-- Spending Chart Preview -->
+        <div class="mt-4 rounded-lg border border-slate-200 p-4">
+
+          <h3 class="text-sm font-semibold text-slate-700">
+            Spending Overview
+          </h3>
+
+          <div class="mt-5 flex h-24 items-end justify-around gap-3">
+
+            <div class="h-[35%] w-6 rounded-t bg-emerald-200"></div>
+            <div class="h-[60%] w-6 rounded-t bg-emerald-300"></div>
+            <div class="h-[45%] w-6 rounded-t bg-teal-300"></div>
+            <div class="h-[80%] w-6 rounded-t bg-emerald-500"></div>
+            <div class="h-[55%] w-6 rounded-t bg-teal-300"></div>
+            <div class="h-[70%] w-6 rounded-t bg-emerald-400"></div>
+
+          </div>
+
+        </div>
+
+        <p class="mt-4 text-center text-xs text-slate-500">
+          A clearer view of your everyday spending
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
 
 
-        <div class="feature-grid">
+  <!-- Features Section -->
+  <section class="bg-white px-5 py-12 sm:px-8 lg:px-16">
 
-            @for (
-            feature of features;
-            track feature.title
-            ) {
+    <div class="mx-auto max-w-6xl">
 
-            <div class="feature-card">
+      <div class="mb-10 text-center">
 
-                >
+        <p class="text-sm font-bold text-emerald-700">FEATURES</p>
 
-                <div class="feature-icon">
+        <h2 class="mt-2 text-3xl font-bold text-slate-900">
+          Everything you need to
+          <span class="text-emerald-700">manage your spending</span>
+        </h2>
 
-                    <mat-icon>
-                        {{ feature.icon }}
-                    </mat-icon>
+        <p class="mt-4 text-sm leading-6 text-slate-500 sm:text-base">
+          Designed to make everyday expense tracking simple and convenient.
+        </p>
 
-                </div>
+      </div>
 
+      <!-- Feature Cards -->
+      <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
+        @for (feature of features; track feature.title) {
 
+          <div class="rounded-lg border border-slate-200 bg-white p-5">
 
-                <h3>
-                    {{ feature.title }}
-                </h3>
-
-
-
-
-                <p>
-                    {{ feature.description }}
-                </p>
-
-
-
-
-                <div class="feature-arrow">
-
-                    <mat-icon>
-                        arrow_forward
-                    </mat-icon>
-
-                </div>
-
+            <div class="flex h-11 w-11 items-center justify-center rounded-lg bg-emerald-50 text-emerald-700">
+              <mat-icon>{{ feature.icon }}</mat-icon>
             </div>
 
-            }
+            <h3 class="mt-4 text-lg font-bold text-slate-900">
+              {{ feature.title }}
+            </h3>
 
-        </div>
+            <p class="mt-2 text-sm leading-6 text-slate-500">
+              {{ feature.description }}
+            </p>
 
-    </section>
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </section>
 
 
+  <!-- Footer -->
+  <footer class="border-t border-slate-200 bg-white px-5 py-6 sm:px-8 lg:px-16">
 
-    <footer class="about-footer">
+    <div class="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
 
-        <div>
+      <div>
+        <h3 class="text-sm font-bold text-slate-900">
+          Expense Tracker
+        </h3>
 
-            <strong>
-                Expense Tracker
-            </strong>
+        <p class="mt-1 text-xs text-slate-500">
+          Simple expense management.
+        </p>
+      </div>
 
-            <span>
-                Simple expense management.
-            </span>
+      <div class="flex items-center gap-2 text-sm text-slate-500">
+        <mat-icon class="!text-emerald-700">code</mat-icon>
+        Built with Angular
+      </div>
 
-        </div>
+    </div>
 
-        <span>
-            Built with Angular
-        </span>
-
-    </footer>
+  </footer>
 
 </div>

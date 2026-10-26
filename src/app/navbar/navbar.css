@@ -97,12 +97,6 @@
   flex-shrink: 0;
 }
 
-.disabled-link {
-  pointer-events: none;
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
 .desktop-navigation a {
   height: 42px;
   padding: 0 18px;

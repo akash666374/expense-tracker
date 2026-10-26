@@ -1,73 +1,113 @@
-<div class="details-container">
+<div
+  class="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-50 via-slate-50 to-teal-100 px-4 py-10">
 
-    <div class="details-card">
+  <div
+    class="w-full max-w-[450px] overflow-hidden rounded-2xl border border-white/80 bg-white/95 shadow-xl shadow-emerald-900/10 backdrop-blur-xl">
 
-        <h2>Expense Details</h2>
+    <!-- HEADER -->
+    <div class="border-b border-emerald-100 bg-gradient-to-r from-emerald-600 to-teal-600 px-6 py-7 text-center">
+      <div
+        class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 text-white ring-1 ring-white/30">
+        <mat-icon class="!h-8 !w-8 !text-[32px]">receipt_long</mat-icon>
+      </div>
 
-        @if (expense) {
-
-        <div class="detail-row">
-
-            <span>ID</span>
-
-            <strong>
-                {{ expense.id }}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <span>Name</span>
-
-            <strong>
-                {{ expense.name }}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <span>Amount</span>
-
-            <strong>
-                ₹{{ expense.amount }}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <span>Category</span>
-
-            <strong>
-                {{ expense.category }}
-            </strong>
-
-        </div>
-
-
-        <div class="detail-row">
-
-            <span>Date</span>
-
-            <strong>
-                {{ expense.date }}
-            </strong>
-
-        </div>
-
-        } @else {
-
-        <p class="not-found">
-            Expense not found.
-        </p>
-
-        }
-
+      <h2 class="text-xl font-bold text-white">Expense Details</h2>
+      <p class="mt-1 text-sm text-emerald-50">
+        View your transaction information
+      </p>
     </div>
 
+    <!-- LOADING -->
+    @if (loading) {
+    <div class="flex flex-col items-center px-6 py-12 text-center">
+      <mat-icon class="!h-10 !w-10 !text-[40px] !text-emerald-600">
+        hourglass_top
+      </mat-icon>
+      <p class="mt-4 text-sm text-slate-500">
+        Loading expense details...
+      </p>
+    </div>
+    }
+
+    <!-- EXPENSE EXISTS -->
+    @else if (expense; as item) {
+    <div class="p-5 sm:p-7">
+
+      <!-- ID -->
+      <div
+        class="flex items-center justify-between gap-4 border-b border-slate-100 py-4 transition-colors hover:bg-emerald-50/50">
+        <span class="text-sm font-medium text-slate-500">ID</span>
+        <strong class="break-all text-right text-sm font-semibold text-slate-800">
+          {{ item.id }}
+        </strong>
+      </div>
+
+      <!-- NAME -->
+      <div
+        class="flex items-center justify-between gap-4 border-b border-slate-100 py-4 transition-colors hover:bg-emerald-50/50">
+        <span class="text-sm font-medium text-slate-500">Name</span>
+        <strong class="break-words text-right text-sm font-semibold text-slate-800">
+          {{ item.name }}
+        </strong>
+      </div>
+
+      <!-- AMOUNT -->
+      <div
+        class="flex items-center justify-between gap-4 border-b border-slate-100 py-4 transition-colors hover:bg-emerald-50/50">
+        <span class="text-sm font-medium text-slate-500">Amount</span>
+        <strong class="break-words text-right text-lg font-bold text-emerald-700">
+          ₹{{ item.amount }}
+        </strong>
+      </div>
+
+      <!-- CATEGORY -->
+      <div
+        class="flex items-center justify-between gap-4 border-b border-slate-100 py-4 transition-colors hover:bg-emerald-50/50">
+        <span class="text-sm font-medium text-slate-500">Category</span>
+        <span
+          class="rounded-full border border-emerald-100 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700">
+          {{ item.category }}
+        </span>
+      </div>
+
+      <!-- DATE -->
+      <div
+        class="flex items-center justify-between gap-4 border-b border-slate-100 py-4 transition-colors hover:bg-emerald-50/50">
+        <span class="text-sm font-medium text-slate-500">Date</span>
+        <strong class="text-right text-sm font-semibold text-slate-800">
+          {{ item.date }}
+        </strong>
+      </div>
+
+      <!-- TIME -->
+      <div class="flex items-center justify-between gap-4 py-4 transition-colors hover:bg-emerald-50/50">
+        <span class="text-sm font-medium text-slate-500">Time</span>
+        <strong class="text-right text-sm font-semibold text-slate-800">
+          {{ item.time }}
+        </strong>
+      </div>
+
+    </div>
+    }
+
+    <!-- ERROR / NOT FOUND -->
+    @else {
+    <div class="flex flex-col items-center px-6 py-12 text-center">
+      <div class="mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-red-500">
+        <mat-icon class="!h-8 !w-8 !text-[32px]">
+          receipt_long
+        </mat-icon>
+      </div>
+
+      <h3 class="text-base font-bold text-slate-800">
+        {{ errorMessage || 'Expense Not Found' }}
+      </h3>
+
+      <p class="mt-2 text-sm leading-6 text-slate-500">
+        The requested expense could not be loaded.
+      </p>
+    </div>
+    }
+
+  </div>
 </div>

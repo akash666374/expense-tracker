@@ -1,238 +1,221 @@
-<div class="expense-list">
+<div class="w-full space-y-5">
 
-    <div class="filter-section">
+  <!-- Search and Category Filter -->
+  <div class="flex w-full flex-col gap-4 sm:flex-row">
 
-        <div class="search-box">
+    <!-- Search Box -->
+    <div class="flex h-12 min-w-0 flex-1 items-center gap-3 rounded-lg border border-slate-200 bg-white px-4">
+      <mat-icon class="!text-slate-400">search</mat-icon>
 
-            <mat-icon>
-                search
-            </mat-icon>
-
-            <input type="text" [(ngModel)]="searchText" (input)="resetPagination()" placeholder="Search expense">
-
-        </div>
-
-        <div class="category-filter">
-
-            <mat-icon>
-                category
-            </mat-icon>
-
-            <select [(ngModel)]="selectedCategory" (change)="resetPagination()">
-
-                <option value="">
-                    All Categories
-                </option>
-
-                <option value="Food">
-                    Food
-                </option>
-
-                <option value="Travel">
-                    Travel
-                </option>
-
-                <option value="Shopping">
-                    Shopping
-                </option>
-
-                <option value="Bills">
-                    Bills
-                </option>
-
-                <option value="Other">
-                    Other
-                </option>
-
-            </select>
-
-        </div>
-
+      <input type="text" [(ngModel)]="searchText" (input)="resetPagination()" placeholder="Search expense"
+        class="!w-full !border-0 !bg-white !text-sm !text-slate-700 !outline-none placeholder:!text-slate-400">
     </div>
 
-    @if (searchExpenses().length === 0) {
+    <!-- Category Filter -->
+    <div class="flex h-12 items-center gap-3 rounded-lg border border-slate-200 bg-white px-3 sm:w-64">
+      <mat-icon class="!text-slate-400">category</mat-icon>
 
-    <div class="empty-state">
-
-        <div class="empty-icon">
-
-            <mat-icon>
-                receipt_long
-            </mat-icon>
-
-        </div>
-
-        <h3>
-            No expenses found
-        </h3>
-
-        <p>
-            Try changing your search or category filter.
-        </p>
-
+      <select [(ngModel)]="selectedCategory" (change)="resetPagination()"
+        class="!w-full !border-0 !bg-white !text-sm !text-slate-700 !outline-none">
+        <option value="">All Categories</option>
+        <option value="Food">Food</option>
+        <option value="Travel">Travel</option>
+        <option value="Shopping">Shopping</option>
+        <option value="Bills">Bills</option>
+        <option value="Other">Other</option>
+      </select>
     </div>
 
-    } @else {
+  </div>
 
-    <div class="table-container">
 
-        <table class="expense-table">
+  <!-- Column Selector Menu -->
+  <button mat-icon-button [matMenuTriggerFor]="columnMenu" aria-label="Select columns">
+    <mat-icon>more_vert</mat-icon>
+  </button>
 
-            <thead>
-
-                <tr>
-
-                    <th>
-                        NAME
-                    </th>
-
-                    <th>
-                        AMOUNT
-                    </th>
-
-                    <th>
-                        CATEGORY
-                    </th>
-
-                    <th>
-                        DATE
-                    </th>
-
-                    <th>
-                        ACTIONS
-                    </th>
-
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                @for (
-                expense of getPaginatedExpenses();
-                track expense.id
-                ) {
-
-                <tr>
-
-                    <td>
-
-                        <div class="expense-name">
-
-                            <div class="expense-icon">
-
-                                <mat-icon>
-                                    receipt
-                                </mat-icon>
-
-                            </div>
-
-                            <span>
-                                {{ expense.name }}
-                            </span>
-
-                        </div>
-
-                    </td>
-
-                    <td>
-
-                        <span class="amount">
-                            ₹{{ expense.amount }}
-                        </span>
-
-                    </td>
-
-                    <td>
-
-                        <span class="category-badge">
-                            {{ expense.category }}
-                        </span>
-
-                    </td>
-
-                    <td>
-                        {{ expense.date }}
-                    </td>
-
-                    <td>
-
-                        <div class="action-buttons">
-
-                            <button mat-icon-button class="view-button" [routerLink]="[
-                                            '/expense',
-                                            expense.id
-                                        ]">
-
-                                <mat-icon>
-                                    visibility
-                                </mat-icon>
-
-                            </button>
-
-                            <button mat-icon-button class="edit-button" (click)="edit(expense.id)">
-
-                                <mat-icon>
-                                    edit
-                                </mat-icon>
-
-                            </button>
-
-                            <button mat-icon-button class="delete-button" (click)="delete(expense.id)">
-
-                                <mat-icon>
-                                    delete
-                                </mat-icon>
-
-                            </button>
-
-                        </div>
-
-                    </td>
-
-                </tr>
-
-                }
-
-            </tbody>
-
-        </table>
-
+  <mat-menu #columnMenu="matMenu">
+    <div class="px-4 py-2 text-sm font-semibold">
+      Select Columns
     </div>
 
-    @if (getTotalPages() > 1) {
-
-    <div class="pagination">
-
-        <button mat-button (click)="previousPage()" [disabled]="currentPage === 1">
-
-            Previous
-
-        </button>
-
-        @for (
-        page of getPageNumbers();
-        track page
-        ) {
-
-        <button mat-button (click)="goToPage(page)" [class.active-page]="currentPage === page">
-
-            {{ page }}
-
-        </button>
-
-        }
-
-        <button mat-button (click)="nextPage()" [disabled]="currentPage === getTotalPages()">
-
-            Next
-
-        </button>
-
+    <div class="px-4" (click)="$event.stopPropagation()">
+      <mat-checkbox [(ngModel)]="showCreatedBy" (change)="updateDisplayedColumns()">
+        Created By
+      </mat-checkbox>
     </div>
 
-    }
+    <div class="px-4" (click)="$event.stopPropagation()">
+      <mat-checkbox [(ngModel)]="showModifiedBy" (change)="updateDisplayedColumns()">
+        Modified By
+      </mat-checkbox>
+    </div>
+  </mat-menu>
 
-    }
+  <!-- Empty State -->
+  @if (dataSource.data.length === 0) {
+
+  <div
+    class="flex min-h-[250px] flex-col items-center justify-center rounded-lg border border-slate-200 bg-white px-6 py-10 text-center">
+
+    <mat-icon class="!mb-3 !h-12 !w-12 !text-5xl !text-slate-400">
+      receipt_long
+    </mat-icon>
+
+    <h3 class="text-lg font-semibold text-slate-800">
+      No expenses found
+    </h3>
+
+    <p class="mt-2 text-sm text-slate-500">
+      Try changing your search or category filter.
+    </p>
+
+  </div>
+
+  } @else {
+
+  <!-- Scrollable Expense Table -->
+  <div class="w-full h-[360px] overflow-x-scroll overflow-y-scroll rounded-lg border border-slate-200 bg-white">
+
+    <table mat-table [dataSource]="dataSource" class="w-full min-w-[1000px] !bg-white">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          NAME
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5 !text-sm !text-slate-700">
+          <div class="flex items-center gap-3">
+            <div class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-slate-100">
+              <mat-icon class="!text-slate-500">receipt</mat-icon>
+            </div>
+
+            <span class="font-semibold text-slate-800">
+              {{ expense.name }}
+            </span>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Amount Column -->
+      <ng-container matColumnDef="amount">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          AMOUNT
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5 !text-sm !font-semibold !text-slate-800">
+          ₹{{ expense.amount }}
+        </td>
+      </ng-container>
+
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          CATEGORY
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5">
+          <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+            {{ expense.category }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Date Column -->
+      <ng-container matColumnDef="CREATED-ON">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          CREATED-ON
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5 !text-sm !text-slate-600">
+          {{ expense.date | date:'MM/dd/yyyy' }}
+        </td>
+      </ng-container>
+
+      <!-- Created By Column -->
+      <ng-container matColumnDef="createdBy">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          CREATED BY
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5 !text-sm !text-slate-600">
+          {{ expense.createdBy || expense.userId }}
+        </td>
+      </ng-container>
+
+      <!-- Modified By Column -->
+      <ng-container matColumnDef="modifiedBy">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          MODIFIED BY
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5 !text-sm !text-slate-600">
+          {{ expense.modifiedBy || expense.userId }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="modifiedOn">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          MODIFIED ON
+        </th>
+
+        <td mat-cell *matCellDef="let expense">
+          {{ expense.modifiedOn || expense.date | date:'MM/dd/yyyy' }}
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef
+          class="!sticky !top-0 !z-20 !h-[52px] !bg-slate-50 !px-5 !text-left !text-xs !font-bold !text-slate-500">
+          ACTIONS
+        </th>
+
+        <td mat-cell *matCellDef="let expense" class="!h-16 !bg-white !px-5">
+          <div class="flex items-center gap-1">
+
+            <!-- View -->
+            <button mat-icon-button class="!text-slate-500" [routerLink]="['/expense', expense.id]"
+              aria-label="View expense">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <!-- Edit -->
+            <button mat-icon-button class="!text-emerald-700" (click)="edit(expense.id)" aria-label="Edit expense">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <!-- Delete -->
+            <button mat-icon-button class="!text-red-600" (click)="delete(expense.id)" aria-label="Delete expense">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Sticky Header Row -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns" class="!bg-slate-50"></tr>
+
+      <!-- Data Rows -->
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" class="!bg-white"></tr>
+
+    </table>
+  </div>
+
+  <!-- Pagination -->
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons aria-label="Select expense page"
+    class="block overflow-hidden rounded-lg border border-slate-200 !bg-white">
+  </mat-paginator>
+
+  }
 
 </div>

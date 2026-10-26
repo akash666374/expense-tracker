@@ -1,555 +1,475 @@
 <app-navbar></app-navbar>
 
+<div class="relative min-h-[calc(100vh-68px)] overflow-hidden bg-gradient-to-br from-emerald-50 via-slate-50 to-teal-100 px-4 py-7 sm:px-6 sm:py-9 lg:px-[7%] lg:py-11">
 
-<div class="reports-page">
+  <!-- BACKGROUND GLOW -->
+  <div class="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-emerald-300/20 blur-3xl"></div>
+  <div class="pointer-events-none absolute -right-32 top-80 h-96 w-96 rounded-full bg-teal-300/20 blur-3xl"></div>
+  <div class="pointer-events-none absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-lime-200/20 blur-3xl"></div>
+
+  <div class="relative z-10 mx-auto max-w-[1400px]">
+
+    <!-- PAGE HEADER -->
+    <div class="mb-8 flex items-center justify-between gap-5 sm:mb-9">
+
+      <div>
+        <span class="text-[11px] font-extrabold tracking-[2px] text-emerald-700">
+          ANALYTICS
+        </span>
+
+        <h1 class="mt-2 text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
+          Expense Reports
+        </h1>
+
+        <p class="mt-2 max-w-xl text-sm leading-6 text-slate-500 sm:text-[15px]">
+          Understand your spending and see where your money is going.
+        </p>
+      </div>
+
+      <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl border border-emerald-100 bg-white/90 text-emerald-700 shadow-sm sm:h-[60px] sm:w-[60px]">
+        <mat-icon class="!h-7 !w-7 !text-[28px] sm:!h-[30px] sm:!w-[30px] sm:!text-[30px]">
+          analytics
+        </mat-icon>
+      </div>
+
+    </div>
 
 
+    <!-- SUMMARY CARDS -->
+    <div class="mb-7 grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+      <!-- TOTAL EXPENSES -->
+      <div class="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg hover:shadow-emerald-900/10">
+
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-colors group-hover:bg-emerald-600 group-hover:text-white">
+          <mat-icon>account_balance_wallet</mat-icon>
+        </div>
+
+        <div class="min-w-0">
+          <span class="block text-xs font-medium text-slate-500">
+            Total Expenses
+          </span>
+
+          <strong class="mt-1 block break-words text-2xl font-bold tracking-tight text-slate-900">
+            ₹{{ expenseService.totalExpenses() }}
+          </strong>
+
+          <small class="mt-1 block text-[11px] text-slate-400">
+            All time spending
+          </small>
+        </div>
+
+      </div>
 
 
-    <div class="page-header">
+      <!-- NUMBER OF EXPENSES -->
+      <div class="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-teal-200 hover:shadow-lg hover:shadow-teal-900/10">
 
-        <div>
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700 transition-colors group-hover:bg-teal-600 group-hover:text-white">
+          <mat-icon>receipt_long</mat-icon>
+        </div>
 
-            <span class="page-label">
-                ANALYTICS
-            </span>
+        <div class="min-w-0">
+          <span class="block text-xs font-medium text-slate-500">
+            Number of Expenses
+          </span>
 
-            <h1>
-                Expense Reports
-            </h1>
+          <strong class="mt-1 block text-2xl font-bold tracking-tight text-slate-900">
+            {{ expenseService.expenses().length }}
+          </strong>
 
-            <p>
-                Understand your spending and
-                see where your money is going.
+          <small class="mt-1 block text-[11px] text-slate-400">
+            Recorded expenses
+          </small>
+        </div>
+
+      </div>
+
+
+      <!-- AVERAGE EXPENSE -->
+      <div class="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-lime-200 hover:shadow-lg hover:shadow-lime-900/10">
+
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-lime-50 text-lime-700 transition-colors group-hover:bg-lime-600 group-hover:text-white">
+          <mat-icon>calculate</mat-icon>
+        </div>
+
+        <div class="min-w-0">
+          <span class="block text-xs font-medium text-slate-500">
+            Average Expense
+          </span>
+
+          <strong class="mt-1 block break-words text-2xl font-bold tracking-tight text-slate-900">
+            ₹{{ averageExpense() | number:'1.0-0' }}
+          </strong>
+
+          <small class="mt-1 block text-[11px] text-slate-400">
+            Average per expense
+          </small>
+        </div>
+
+      </div>
+
+
+      <!-- HIGHEST EXPENSE -->
+      <div class="group flex items-center gap-4 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:border-orange-200 hover:shadow-lg hover:shadow-orange-900/10">
+
+        <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-500 group-hover:text-white">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+
+        <div class="min-w-0">
+          <span class="block text-xs font-medium text-slate-500">
+            Highest Expense
+          </span>
+
+          <strong class="mt-1 block break-words text-2xl font-bold tracking-tight text-slate-900">
+            ₹{{ expenseService.highestExpense() }}
+          </strong>
+
+          <small class="mt-1 block text-[11px] text-slate-400">
+            Largest transaction
+          </small>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- REPORT GRID -->
+    <div class="mb-5 grid grid-cols-1 items-start gap-5 xl:grid-cols-[1.25fr_0.75fr]">
+
+
+      <!-- SPENDING BY CATEGORY -->
+      <div class="min-w-0 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl sm:p-7">
+
+        <div class="mb-7 flex items-start justify-between gap-4">
+
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">
+              Spending by Category
+            </h2>
+
+            <p class="mt-1.5 text-xs leading-5 text-slate-500 sm:text-sm">
+              See how your expenses are distributed.
+            </p>
+          </div>
+
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+            <mat-icon>pie_chart</mat-icon>
+          </div>
+
+        </div>
+
+
+        @if (categoryPercentages().length === 0) {
+
+          <!-- EMPTY CATEGORY STATE -->
+          <div class="flex min-h-[220px] flex-col items-center justify-center text-center">
+
+            <div class="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-700">
+              <mat-icon class="!text-[32px]">pie_chart_outline</mat-icon>
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-800">
+              No data available
+            </h3>
+
+            <p class="mt-2 max-w-xs text-xs leading-5 text-slate-500">
+              Add some expenses to generate your report.
             </p>
 
-        </div>
+          </div>
 
+        } @else {
 
-        <div class="report-icon">
+          <!-- CATEGORY LIST -->
+          <div class="flex flex-col gap-5">
 
-            <mat-icon>
-                analytics
-            </mat-icon>
-
-        </div>
-
-    </div>
-
-
-
-    <div class="summary-grid">
-
-
-        <div class="summary-card purple">
-
-            <div class="summary-icon">
-
-                <mat-icon>
-                    account_balance_wallet
-                </mat-icon>
-
-            </div>
-
-
-            <div class="summary-content">
-
-                <span>
-                    Total Expenses
-                </span>
-
-                <strong>
-                    ₹{{ expenseService.totalExpenses() }}
-                </strong>
-
-                <small>
-                    All time spending
-                </small>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="summary-card blue">
-
-            <div class="summary-icon">
-
-                <mat-icon>
-                    receipt_long
-                </mat-icon>
-
-            </div>
-
-
-            <div class="summary-content">
-
-                <span>
-                    Number of Expenses
-                </span>
-
-                <strong>
-                    {{ expenseService.expenses().length }}
-                </strong>
-
-                <small>
-                    Recorded expenses
-                </small>
-
-            </div>
-
-        </div>
-
-
-
-
-        <div class="summary-card green">
-
-            <div class="summary-icon">
-
-                <mat-icon>
-                    calculate
-                </mat-icon>
-
-            </div>
-
-
-            <div class="summary-content">
-
-                <span>
-                    Average Expense
-                </span>
-
-                <strong>
-                    ₹{{ averageExpense() | number:'1.0-0' }}
-                </strong>
-
-                <small>
-                    Average per expense
-                </small>
-
-            </div>
-
-        </div>
-
-
-        <div class="summary-card orange">
-
-            <div class="summary-icon">
-
-                <mat-icon>
-                    trending_up
-                </mat-icon>
-
-            </div>
-
-
-            <div class="summary-content">
-
-                <span>
-                    Highest Expense
-                </span>
-
-                <strong>
-                    ₹{{ expenseService.highestExpense() }}
-                </strong>
-
-                <small>
-                    Largest transaction
-                </small>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-
-
-    <div class="report-grid">
-
-
-
-        <div class="report-card category-card">
-
-
-            <div class="card-header">
-
-                <div>
-
-                    <h2>
-                        Spending by Category
-                    </h2>
-
-                    <p>
-                        See how your expenses are
-                        distributed.
-                    </p>
-
-                </div>
-
-
-                <div class="card-header-icon">
-
-                    <mat-icon>
-                        pie_chart
-                    </mat-icon>
-
-                </div>
-
-            </div>
-
-
-
-
-            @if (
-            categoryPercentages().length === 0
+            @for (
+              category of categoryPercentages();
+              track category.category;
+              let i = $index
             ) {
 
-            <div class="empty-report">
+              <div class="group">
 
-                <mat-icon>
-                    pie_chart_outline
-                </mat-icon>
+                <div class="mb-2 flex items-center justify-between gap-3">
 
-                <h3>
-                    No data available
-                </h3>
+                  <div class="flex min-w-0 items-center gap-3">
 
-                <p>
-                    Add some expenses to
-                    generate your report.
-                </p>
+                    <span
+                      class="h-3 w-3 shrink-0 rounded-full ring-4 ring-slate-100"
+                      [style.background-color]="getCategoryColor(i)">
+                    </span>
 
-            </div>
+                    <span class="truncate text-sm font-medium text-slate-600 transition-colors group-hover:text-emerald-800">
+                      {{ category.category }}
+                    </span>
 
-            } @else {
+                  </div>
 
+                  <div class="flex shrink-0 items-center gap-3">
 
-            <div class="category-list">
+                    <strong class="text-sm font-bold text-slate-800">
+                      ₹{{ category.amount }}
+                    </strong>
 
-                @for (
-                category of categoryPercentages();
-                track category.category;
-                let i = $index
-                ) {
+                    <span class="min-w-[48px] text-right text-xs font-semibold text-slate-400">
+                      {{ category.percentage | number:'1.0-1' }}%
+                    </span>
 
-
-                <div class="category-row">
-
-
-                    <div class="category-info">
-
-
-                        <div class="category-dot" [style.background-color]="
-                                        getCategoryColor(i)
-                                    ">
-                        </div>
-
-
-                        <span>
-                            {{ category.category }}
-                        </span>
-
-
-                    </div>
-
-
-                    <div class="category-values">
-
-                        <strong>
-                            ₹{{ category.amount }}
-                        </strong>
-
-                        <span>
-                            {{ category.percentage | number:'1.0-1' }}%
-                        </span>
-
-                    </div>
-
+                  </div>
 
                 </div>
 
+                <div class="h-2 overflow-hidden rounded-full bg-slate-100">
 
-
-                <div class="progress-bar">
-
-                    <div class="progress-value" [style.width.%]="
-                                    category.percentage
-                                " [style.background-color]="
-                                    getCategoryColor(i)
-                                ">
-                    </div>
+                  <div
+                    class="h-full rounded-full transition-all duration-700 ease-out group-hover:brightness-110"
+                    [style.width.%]="category.percentage"
+                    [style.background-color]="getCategoryColor(i)">
+                  </div>
 
                 </div>
 
-
-                }
-
-            </div>
+              </div>
 
             }
 
-        </div>
+          </div>
 
-        <div class="report-card summary-report">
+        }
 
-
-            <div class="card-header">
-
-                <div>
-
-                    <h2>
-                        Spending Summary
-                    </h2>
-
-                    <p>
-                        A quick overview of your
-                        financial activity.
-                    </p>
-
-                </div>
+      </div>
 
 
-                <div class="card-header-icon">
+      <!-- SPENDING SUMMARY -->
+      <div class="min-w-0 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl sm:p-7">
 
-                    <mat-icon>
-                        insights
-                    </mat-icon>
+        <div class="mb-5 flex items-start justify-between gap-4">
 
-                </div>
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">
+              Spending Summary
+            </h2>
 
-            </div>
+            <p class="mt-1.5 text-xs leading-5 text-slate-500">
+              A quick overview of your financial activity.
+            </p>
+          </div>
 
-
-            <!-- Total -->
-
-            <div class="summary-row">
-
-                <div class="row-icon purple-icon">
-
-                    <mat-icon>
-                        payments
-                    </mat-icon>
-
-                </div>
-
-
-                <div class="row-content">
-
-                    <span>
-                        Total spending
-                    </span>
-
-                    <strong>
-                        ₹{{ expenseService.totalExpenses() }}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="summary-row">
-
-                <div class="row-icon green-icon">
-
-                    <mat-icon>
-                        functions
-                    </mat-icon>
-
-                </div>
-
-
-                <div class="row-content">
-
-                    <span>
-                        Average expense
-                    </span>
-
-                    <strong>
-                        ₹{{ averageExpense() | number:'1.0-0' }}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="summary-row">
-
-                <div class="row-icon orange-icon">
-
-                    <mat-icon>
-                        arrow_upward
-                    </mat-icon>
-
-                </div>
-
-
-                <div class="row-content">
-
-                    <span>
-                        Highest expense
-                    </span>
-
-                    <strong>
-                        ₹{{ expenseService.highestExpense() }}
-                    </strong>
-
-                </div>
-
-            </div>
-
-
-
-
-            <div class="summary-row">
-
-                <div class="row-icon blue-icon">
-
-                    <mat-icon>
-                        receipt
-                    </mat-icon>
-
-                </div>
-
-
-                <div class="row-content">
-
-                    <span>
-                        Total transactions
-                    </span>
-
-                    <strong>
-                        {{ expenseService.expenses().length }}
-                    </strong>
-
-                </div>
-
-            </div>
-
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700">
+            <mat-icon>insights</mat-icon>
+          </div>
 
         </div>
+
+
+        <!-- TOTAL SPENDING -->
+        <div class="group flex items-center gap-3 border-b border-slate-100 py-4">
+
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 transition-colors group-hover:bg-emerald-100">
+            <mat-icon>payments</mat-icon>
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <span class="block text-xs text-slate-500">
+              Total spending
+            </span>
+
+            <strong class="mt-1 block break-words text-base font-bold text-slate-900">
+              ₹{{ expenseService.totalExpenses() }}
+            </strong>
+          </div>
+
+        </div>
+
+
+        <!-- AVERAGE -->
+        <div class="group flex items-center gap-3 border-b border-slate-100 py-4">
+
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-lime-50 text-lime-700 transition-colors group-hover:bg-lime-100">
+            <mat-icon>functions</mat-icon>
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <span class="block text-xs text-slate-500">
+              Average expense
+            </span>
+
+            <strong class="mt-1 block break-words text-base font-bold text-slate-900">
+              ₹{{ averageExpense() | number:'1.0-0' }}
+            </strong>
+          </div>
+
+        </div>
+
+
+        <!-- HIGHEST -->
+        <div class="group flex items-center gap-3 border-b border-slate-100 py-4">
+
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-orange-600 transition-colors group-hover:bg-orange-100">
+            <mat-icon>arrow_upward</mat-icon>
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <span class="block text-xs text-slate-500">
+              Highest expense
+            </span>
+
+            <strong class="mt-1 block break-words text-base font-bold text-slate-900">
+              ₹{{ expenseService.highestExpense() }}
+            </strong>
+          </div>
+
+        </div>
+
+
+        <!-- TRANSACTIONS -->
+        <div class="group flex items-center gap-3 py-4">
+
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-teal-50 text-teal-700 transition-colors group-hover:bg-teal-100">
+            <mat-icon>receipt</mat-icon>
+          </div>
+
+          <div class="min-w-0 flex-1">
+            <span class="block text-xs text-slate-500">
+              Total transactions
+            </span>
+
+            <strong class="mt-1 block text-base font-bold text-slate-900">
+              {{ expenseService.expenses().length }}
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
 
+    <!-- CATEGORY DISTRIBUTION -->
+    <div class="mb-5 rounded-2xl border border-white/80 bg-white/90 p-5 shadow-[0_8px_30px_rgba(5,150,105,0.05)] backdrop-blur-xl sm:p-7">
 
-    <!-- ===================================== -->
-    <!-- CATEGORY VISUAL -->
-    <!-- ===================================== -->
+      <div class="mb-8 flex items-start justify-between gap-4">
 
-    <div class="report-card category-visual">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">
+            Category Distribution
+          </h2>
+
+          <p class="mt-1.5 text-xs leading-5 text-slate-500 sm:text-sm">
+            Visual representation of your spending categories.
+          </p>
+        </div>
+
+        <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700">
+          <mat-icon>donut_large</mat-icon>
+        </div>
+
+      </div>
 
 
-        <div class="card-header">
+      <div class="grid grid-cols-1 items-center gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-12">
 
-            <div>
+        <!-- DONUT CHART -->
+        <div class="flex flex-col items-center justify-center">
 
-                <h2>
-                    Category Distribution
-                </h2>
+          <div
+            class="flex h-[230px] w-[230px] items-center justify-center rounded-full shadow-lg shadow-emerald-900/10 transition-transform duration-300 hover:scale-[1.03]"
+            [style.background]="expenseService.categoryChart()">
 
-                <p>
-                    Visual representation of your
-                    spending categories.
-                </p>
+            <div class="flex h-[145px] w-[145px] flex-col items-center justify-center rounded-full bg-white shadow-inner">
+
+              <strong class="max-w-full break-all px-2 text-center text-xl font-bold text-slate-900">
+                ₹{{ expenseService.totalExpenses() }}
+              </strong>
+
+              <span class="mt-1 text-xs text-slate-400">
+                Total spending
+              </span>
 
             </div>
 
-
-            <mat-icon>
-                donut_large
-            </mat-icon>
+          </div>
 
         </div>
 
 
-        <div class="visual-content">
+        <!-- CHART LEGEND -->
+        <div class="flex min-w-0 flex-col gap-3">
 
+          @for (
+            category of categoryPercentages();
+            track category.category;
+            let i = $index
+          ) {
 
-            <!-- Donut -->
+            <div class="group flex items-center justify-between gap-4 rounded-xl border border-transparent bg-slate-50/80 px-4 py-3 transition-all duration-200 hover:border-emerald-100 hover:bg-emerald-50/70">
 
-            <div class="donut-chart" [style.background]="
-                    expenseService.categoryChart()
-                ">
+              <div class="flex min-w-0 items-center gap-3">
 
-                <div class="donut-center">
+                <span
+                  class="h-3 w-3 shrink-0 rounded-full ring-4 ring-white"
+                  [style.background-color]="getCategoryColor(i)">
+                </span>
 
-                    <strong>
-                        ₹{{ expenseService.totalExpenses() }}
-                    </strong>
+                <span class="truncate text-sm font-medium text-slate-600 group-hover:text-emerald-800">
+                  {{ category.category }}
+                </span>
 
-                    <span>
-                        Total
-                    </span>
+              </div>
 
-                </div>
-
-            </div>
-
-
-            <!-- Legend -->
-
-            <div class="legend">
-
-                @for (
-                category of categoryPercentages();
-                track category.category;
-                let i = $index
-                ) {
-
-                <div class="legend-item">
-
-                    <span class="legend-left">
-
-                        <span class="legend-dot" [style.background-color]="
-                                    getCategoryColor(i)
-                                ">
-                        </span>
-
-                        {{ category.category }}
-
-                    </span>
-
-
-                    <strong>
-                        {{ category.percentage | number:'1.0-1' }}%
-                    </strong>
-
-                </div>
-
-                }
+              <strong class="shrink-0 text-sm font-bold text-slate-800">
+                {{ category.percentage | number:'1.0-1' }}%
+              </strong>
 
             </div>
+
+          }
+
+          @if (categoryPercentages().length === 0) {
+
+            <div class="rounded-xl bg-slate-50 px-4 py-8 text-center">
+              <p class="text-sm font-medium text-slate-600">
+                No category data available
+              </p>
+              <p class="mt-1 text-xs text-slate-400">
+                Add expenses to view the distribution.
+              </p>
+            </div>
+
+          }
 
         </div>
+
+      </div>
 
     </div>
 
 
-
-    <!-- ===================================== -->
     <!-- FOOTER NOTE -->
-    <!-- ===================================== -->
+    <div class="flex items-start gap-3 rounded-xl border border-emerald-100 bg-white/70 px-4 py-4 text-xs leading-5 text-slate-500 shadow-sm backdrop-blur sm:items-center">
 
-    <div class="report-note">
+      <mat-icon class="!shrink-0 !text-lg !text-emerald-700">
+        info
+      </mat-icon>
 
-        <mat-icon>
-            info
-        </mat-icon>
-
-        <span>
-            Reports are calculated from the expenses
-            currently stored in your Expense Tracker.
-        </span>
+      <span>
+        Reports are calculated from the expenses currently stored in your Expense Tracker.
+      </span>
 
     </div>
 
+
+    <!-- FOOTER -->
+    <div class="mt-6 flex flex-col justify-between gap-2 px-1 text-xs text-slate-500 sm:flex-row sm:items-center">
+      <p>Expense Tracker · Reports</p>
+      <p>Understand your spending. Make informed decisions.</p>
+    </div>
+
+  </div>
 
 </div>

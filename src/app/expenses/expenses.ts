@@ -1,10 +1,10 @@
 
 import {
   Component,
-  inject,
+  OnInit,
   ViewChild,
-  signal,
-  OnInit
+  inject,
+  signal
 } from '@angular/core';
 
 import { Navbar } from '../navbar/navbar';
@@ -21,95 +21,86 @@ import {
   Expense
 } from '../services/expense';
 
+import { AuthService } from '../services/auth';
+
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 import {
-  tap,
-  take,
   catchError,
-  finalize
+  finalize,
+  take
 } from 'rxjs/operators';
 
-import { throwError } from 'rxjs';
+import { EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-expenses',
-
+  standalone: true,
   imports: [
     Navbar,
     AddExpense,
     ExpenseList,
-    MatCardModule
+    MatCardModule,
+    MatIconModule,
+    MatButtonModule
   ],
-
   templateUrl: './expenses.html',
-
   styleUrl: './expenses.css'
 })
 export class Expenses implements OnInit {
-
-  expenseService = inject(ExpenseService);
+  readonly expenseService = inject(ExpenseService);
+  readonly authService = inject(AuthService);
 
   @ViewChild(AddExpense)
   addExpenseComponent!: AddExpense;
 
-  loading = signal(false);
+  readonly loading = signal(false);
+  readonly errorMessage = signal('');
+  readonly successMessage = signal('');
 
-  errorMessage = signal('');
+  readonly showUpdateConfirmation = signal(false);
+  readonly pendingUpdate = signal<ExpenseFormData | null>(null);
 
-  successMessage = signal('');
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.getExpenses();
   }
 
-  getExpenses() {
+  getExpenses(): void {
     this.loading.set(true);
     this.errorMessage.set('');
 
-    this.expenseService
-      .getExpenses()
+    let userId: string | undefined;
+
+    if (this.authService.isAdmin()) {
+      userId = undefined;
+    } else {
+      userId = this.authService.currentUser().id;
+    }
+
+    this.expenseService.getExpenses(userId)
       .pipe(
-        tap(() => {
-          console.log('Expenses received from server');
-        }),
-
         take(1),
-
         catchError(error => {
-          console.log(
-            'Error while loading expenses:',
-            error
-          );
-
-          this.errorMessage.set(
-            'Failed to load expenses'
-          );
-
-          return throwError(() => error);
+          console.error('Error loading expenses:', error);
+          this.errorMessage.set('Failed to load expenses.');
+          return EMPTY;
         }),
-
         finalize(() => {
           this.loading.set(false);
-          console.log('Loading finished');
         })
       )
-      .subscribe({
-        next: (data) => {
-          console.log('Expenses:', data);
-
-          this.expenseService
-            .expenses
-            .set(data);
-        },
-
-        error: (error) => {
-          console.log('GET request failed:', error);
-        }
-      });
+      .subscribe();
   }
 
-  saveExpense(data: ExpenseFormData) {
+  switchUser(userId: string): void {
+    this.authService.switchUser(userId);
+    this.expenseService.clearFilters();
+    this.getExpenses();
+  }
+
+  saveExpense(data: ExpenseFormData): void {
     if (data.id === null) {
       this.addExpense(data);
     } else {
@@ -117,144 +108,210 @@ export class Expenses implements OnInit {
     }
   }
 
-  addExpense(data: ExpenseFormData) {
-    this.expenseService
-      .addExpense({
-        name: data.name,
-        amount: data.amount,
-        category: data.category,
-        date: data.date
-      })
-      .subscribe({
-        next: (newExpense) => {
-          console.log('Expense added:', newExpense);
-
-          this.expenseService
-            .expenses
-            .update(expenses => [
-              ...expenses,
-              newExpense
-            ]);
-
-          this.successMessage.set(
-            'Expense added successfully'
-          );
-
-          this.addExpenseComponent.clearForm();
-        },
-
-        error: (error) => {
-          console.log('POST request failed:', error);
-
-          this.errorMessage.set(
-            'Failed to add expense'
-          );
-        },
-
-        complete: () => {
-          console.log('POST request completed');
-        }
-      });
+  requestUpdateConfirmation(data: ExpenseFormData): void {
+    this.pendingUpdate.set(data);
+    this.showUpdateConfirmation.set(true);
   }
 
-  updateExpense(
-    id: string,
-    data: ExpenseFormData
-  ) {
-    this.expenseService
-      .updateExpense(
-        id,
-        {
-          name: data.name,
-          amount: data.amount,
-          category: data.category,
-          date: data.date
-        }
+  cancelUpdate(): void {
+    this.showUpdateConfirmation.set(false);
+    this.pendingUpdate.set(null);
+  }
+
+  confirmUpdate(): void {
+    const data = this.pendingUpdate();
+
+    if (data === null || data.id === null) {
+      return;
+    }
+
+    this.showUpdateConfirmation.set(false);
+    this.pendingUpdate.set(null);
+
+    this.updateExpense(data.id, data);
+  }
+
+  addExpense(data: ExpenseFormData): void {
+    const currentUserId = this.authService.currentUser().id;
+
+    const newExpense = {
+      userId: currentUserId,
+      name: data.name,
+      amount: Number(data.amount),
+      category: data.category,
+      date: data.date,
+      time: data.time,
+      createdBy: currentUserId,
+      modifiedBy: currentUserId
+    };
+
+    this.loading.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
+
+    this.expenseService.addExpense(newExpense)
+      .pipe(
+        take(1),
+        catchError(error => {
+          console.error('Error adding expense:', error);
+          this.errorMessage.set('Failed to add expense.');
+          return EMPTY;
+        }),
+        finalize(() => {
+          this.loading.set(false);
+        })
       )
-      .subscribe({
-        next: (updatedExpense) => {
-          console.log(
-            'Expense updated:',
-            updatedExpense
-          );
+      .subscribe(createdExpense => {
+        let shouldDisplay = false;
 
-          this.expenseService
-            .expenses
-            .update(expenses =>
-              expenses.map(expense =>
-                expense.id === updatedExpense.id
-                  ? updatedExpense
-                  : expense
-              )
-            );
-
-          this.successMessage.set(
-            'Expense updated successfully'
-          );
-
-          this.addExpenseComponent.clearForm();
-        },
-
-        error: (error) => {
-          console.log('PATCH request failed:', error);
-
-          this.errorMessage.set(
-            'Failed to update expense'
-          );
-        },
-
-        complete: () => {
-          console.log('PATCH request completed');
+        if (this.authService.isAdmin()) {
+          shouldDisplay = true;
+        } else if (
+          createdExpense.userId === this.authService.currentUser().id
+        ) {
+          shouldDisplay = true;
         }
+
+        if (shouldDisplay) {
+          this.expenseService.expenses.update(expenses => [
+            ...expenses,
+            createdExpense
+          ]);
+        }
+
+        this.successMessage.set('Expense added successfully.');
+        this.addExpenseComponent.clearForm();
       });
   }
 
-  editExpense(id: string) {
-    const expense = this.expenseService
+  updateExpense(id: number, data: ExpenseFormData): void {
+    const existingExpense = this.expenseService
       .expenses()
       .find(expense => expense.id === id);
 
-    if (expense) {
-      this.addExpenseComponent.editExpense(expense);
+    if (!existingExpense) {
+      this.errorMessage.set('Expense not found.');
+      return;
     }
-  }
 
-  deleteExpense(id: string) {
-    this.expenseService
-      .deleteExpense(id)
-      .subscribe({
-        next: () => {
-          console.log('Expense deleted:', id);
+    if (
+      !this.authService.isAdmin() &&
+      existingExpense.userId !== this.authService.currentUser().id
+    ) {
+      this.errorMessage.set('You cannot edit another user’s expense.');
+      return;
+    }
 
-          this.expenseService
-            .expenses
-            .update(expenses =>
-              expenses.filter(
-                expense => expense.id !== id
-              )
-            );
+    const currentUserId = this.authService.currentUser().id;
 
-          this.successMessage.set(
-            'Expense deleted successfully'
-          );
-        },
+    const updatedData = {
+      name: data.name,
+      amount: Number(data.amount),
+      category: data.category,
+      date: data.date,
+      time: data.time,
+      createdBy: existingExpense.createdBy ?? existingExpense.userId,
+      modifiedBy: currentUserId
+    };
 
-        error: (error) => {
-          console.log('DELETE request failed:', error);
+    this.loading.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
 
-          this.errorMessage.set(
-            'Failed to delete expense'
-          );
-        },
+    this.expenseService.updateExpense(id, updatedData)
+      .pipe(
+        take(1),
+        catchError(error => {
+          console.error('Error updating expense:', error);
+          this.errorMessage.set('Failed to update expense.');
+          return EMPTY;
+        }),
+        finalize(() => {
+          this.loading.set(false);
+        })
+      )
+      .subscribe(updatedExpense => {
+        this.expenseService.expenses.update(expenses =>
+          expenses.map(expense => {
+            if (expense.id === id) {
+              return {
+                ...updatedExpense,
+                userId: existingExpense.userId,
+                createdBy: existingExpense.createdBy ?? existingExpense.userId,
+                modifiedBy: currentUserId
+              };
+            }
 
-        complete: () => {
-          console.log('DELETE request completed');
-        }
+            return expense;
+          })
+        );
+
+        this.successMessage.set('Expense updated successfully.');
+        this.addExpenseComponent.clearForm();
       });
   }
 
-  String(value: string | number): string {
-    return value.toString();
+  editExpense(id: number): void {
+    const expense = this.expenseService
+      .expenses()
+      .find(item => item.id === id);
+
+    if (!expense) {
+      this.errorMessage.set('Expense not found.');
+      return;
+    }
+
+    if (
+      !this.authService.isAdmin() &&
+      expense.userId !== this.authService.currentUser().id
+    ) {
+      this.errorMessage.set('You cannot edit another user’s expense.');
+      return;
+    }
+
+    this.addExpenseComponent.editExpense(expense);
   }
 
+  deleteExpense(id: number): void {
+    const expense = this.expenseService
+      .expenses()
+      .find(item => item.id === id);
+
+    if (!expense) {
+      this.errorMessage.set('Expense not found.');
+      return;
+    }
+
+    if (
+      !this.authService.isAdmin() &&
+      expense.userId !== this.authService.currentUser().id
+    ) {
+      this.errorMessage.set('You cannot delete another user’s expense.');
+      return;
+    }
+
+    this.loading.set(true);
+    this.errorMessage.set('');
+    this.successMessage.set('');
+
+    this.expenseService.deleteExpense(id)
+      .pipe(
+        take(1),
+        catchError(error => {
+          console.error('Error deleting expense:', error);
+          this.errorMessage.set('Failed to delete expense.');
+          return EMPTY;
+        }),
+        finalize(() => {
+          this.loading.set(false);
+        })
+      )
+      .subscribe(() => {
+        this.expenseService.expenses.update(expenses =>
+          expenses.filter(item => item.id !== id)
+        );
+
+        this.successMessage.set('Expense deleted successfully.');
+      });
+  }
 }

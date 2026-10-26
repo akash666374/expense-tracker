@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+
+import { Component, inject } from '@angular/core';
 
 import {
   FormControl,
@@ -12,26 +13,30 @@ import {
   RouterLink
 } from '@angular/router';
 
+import { AuthService } from '../services/auth';
+
+interface RegisteredUser {
+  name: string;
+  email: string;
+  password: string;
+}
 
 @Component({
-
   selector: 'app-login',
-
+  standalone: true,
   imports: [
     ReactiveFormsModule,
     RouterLink
   ],
-
   templateUrl: './login.html',
-
   styleUrl: './login.css'
-
 })
 export class Login {
 
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
 
   loginForm = new FormGroup({
-
     email: new FormControl<string>(
       '',
       [
@@ -39,7 +44,6 @@ export class Login {
         Validators.email
       ]
     ),
-
     password: new FormControl<string>(
       '',
       [
@@ -47,89 +51,101 @@ export class Login {
         Validators.minLength(6)
       ]
     )
-
   });
-
 
   errorMessage = '';
 
+  readonly demoAccounts = [
+    {
+      email: 'user1@gmail.com',
+      password: 'user123',
+      userId: 'user1'
+    },
+    {
+      email: 'user2@gmail.com',
+      password: 'user123',
+      userId: 'user2'
+    },
+    {
+      email: 'admin@gmail.com',
+      password: 'admin123',
+      userId: 'admin1'
+    }
+  ];
 
-  constructor(
-    private router: Router
-  ) { }
+  login(): void {
 
-
-  login() {
-
-    // Check form validation
-    if (!this.loginForm.valid) {
-
+    if (this.loginForm.invalid) {
       this.errorMessage =
-        'Please enter valid email and password.';
-
+        'Please enter a valid email and password.';
       return;
     }
 
-
-    // Get entered email
     const email =
-      this.loginForm.value.email;
+      this.loginForm.getRawValue().email?.trim().toLowerCase();
 
-
-    // Get entered password
     const password =
-      this.loginForm.value.password;
+      this.loginForm.getRawValue().password;
 
+    if (!email || !password) {
+      this.errorMessage =
+        'Please enter your email and password.';
+      return;
+    }
 
-    // Get registered user
-    const savedUser =
-      localStorage.getItem('signupUser');
+    const demoAccount = this.demoAccounts.find(account => {
+      return (
+        account.email === email &&
+        account.password === password
+      );
+    });
 
+    if (demoAccount) {
+      this.authService.switchUser(demoAccount.userId);
 
-    // Check whether user exists
-    if (savedUser === null) {
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('loggedInUserId', demoAccount.userId);
 
+      this.errorMessage = '';
+      this.router.navigate(['/expenses']);
+      return;
+    }
+
+    const savedUsers = localStorage.getItem('signupUsers');
+
+    if (savedUsers === null) {
       this.errorMessage =
         'No account found. Please sign up first.';
-
       return;
     }
 
+    try {
+      const users: RegisteredUser[] = JSON.parse(savedUsers);
 
-    // Convert JSON string into object
-    const user =
-      JSON.parse(savedUser);
+      const registeredUser = users.find(user => {
+        return (
+          user.email.toLowerCase() === email &&
+          user.password === password
+        );
+      });
 
-
-    // Check email and password
-    if (
-      email === user.email &&
-      password === user.password
-    ) {
-
-      // Login successful
-      localStorage.setItem(
-        'isLoggedIn',
-        'true'
-      );
+      if (!registeredUser) {
+        this.errorMessage = 'Invalid email or password.';
+        return;
+      }
 
       this.errorMessage = '';
 
-      console.log('Login successful');
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('loggedInUserId', email);
 
-      // Navigate to dashboard
-      this.router.navigate([
-        '/dashboard'
-      ]);
+      // Registered accounts must be treated as normal users.
+      // Their expense ownership needs to use this unique ID.
+      this.router.navigate(['/dashboard']);
 
-    } else {
-
-      // Login failed
+    } catch {
       this.errorMessage =
-        'Invalid email or password.';
-
+        'Unable to read registered accounts. Please sign up again.';
     }
-
   }
-
 }

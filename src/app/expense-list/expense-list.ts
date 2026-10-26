@@ -2,228 +2,178 @@
 import {
   Component,
   inject,
-  output
+  output,
+  ViewChild,
+  effect
 } from '@angular/core';
 
-import {
-  FormsModule
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 
 import {
-  RouterLink
-} from '@angular/router';
+  MatTableModule,
+  MatTableDataSource
+} from '@angular/material/table';
 
 import {
-  MatButtonModule
-} from '@angular/material/button';
+  MatPaginator,
+  MatPaginatorModule
+} from '@angular/material/paginator';
 
-import {
-  MatIconModule
-} from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import {
   MatSnackBarModule,
   MatSnackBar
 } from '@angular/material/snack-bar';
 
-import {
-  ExpenseService
-} from '../services/expense';
+import { ExpenseService, Expense } from '../services/expense';
+
+import { DatePipe } from '@angular/common';
+
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-expense-list',
-
+  standalone: true,
   imports: [
     FormsModule,
     RouterLink,
     MatButtonModule,
     MatIconModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTableModule,
+    MatPaginatorModule,
+    DatePipe,
+    MatCheckboxModule,
+    MatMenuModule
+
   ],
-
   templateUrl: './expense-list.html',
-
   styleUrl: './expense-list.css'
 })
 export class ExpenseList {
 
-  expenseService =
-    inject(ExpenseService);
+  readonly expenseService = inject(ExpenseService);
+  readonly snackBar = inject(MatSnackBar);
 
-  expenses =
-    this.expenseService.expenses;
+  readonly expenses = this.expenseService.expenses;
 
   searchText = '';
-
   selectedCategory = '';
 
-  editExpense =
-    output<string>();
+  editExpense = output<number>();
+  deleteExpenseEvent = output<number>();
 
-  deleteExpenseEvent =
-    output<string>();
+  showCreatedBy = false;
+  showModifiedBy = false;
 
-  snackBar =
-    inject(MatSnackBar);
+  displayedColumns: string[] = [
+    'name',
+    'amount',
+    'category',
+    'CREATED-ON',
+    'modifiedOn',
+    'actions'
+  ];
 
-  currentPage = 1;
+  updateDisplayedColumns(): void {
+    this.displayedColumns = [
+      'name',
+      'amount',
+      'category',
+      'CREATED-ON',
+      'modifiedOn'
+    ];
 
-  itemsPerPage = 5;
-
-
-  searchExpenses() {
-
-    return this.expenses()
-      .filter(expense => {
-
-        const matchesName =
-          expense.name
-            .toLowerCase()
-            .includes(
-              this.searchText.toLowerCase()
-            );
-
-        const matchesCategory =
-          this.selectedCategory === '' ||
-          expense.category ===
-          this.selectedCategory;
-
-        return (
-          matchesName &&
-          matchesCategory
-        );
-
-      });
-
-  }
-
-
-  getPaginatedExpenses() {
-
-    const filteredExpenses =
-      this.searchExpenses();
-
-    const startIndex =
-      (this.currentPage - 1) *
-      this.itemsPerPage;
-
-    const endIndex =
-      startIndex +
-      this.itemsPerPage;
-
-    return filteredExpenses.slice(
-      startIndex,
-      endIndex
-    );
-
-  }
-
-
-  getTotalPages() {
-
-    const totalExpenses =
-      this.searchExpenses().length;
-
-    return Math.ceil(
-      totalExpenses /
-      this.itemsPerPage
-    );
-
-  }
-
-
-  getPageNumbers() {
-
-    const pages = [];
-
-    for (
-      let i = 1; i <= this.getTotalPages(); i++
-    ) {
-
-      pages.push(i);
-
+    if (this.showCreatedBy) {
+      this.displayedColumns.push('createdBy');
     }
 
-    return pages;
-
-  }
-
-
-  nextPage() {
-
-    if (
-      this.currentPage <
-      this.getTotalPages()
-    ) {
-
-      this.currentPage++;
-
+    if (this.showModifiedBy) {
+      this.displayedColumns.push('modifiedBy');
     }
 
+    this.displayedColumns.push('actions');
   }
+  dataSource = new MatTableDataSource<Expense>([]);
 
-
-  previousPage() {
-
-    if (
-      this.currentPage > 1
-    ) {
-
-      this.currentPage--;
-
+  @ViewChild(MatPaginator)
+  set matPaginator(paginator: MatPaginator) {
+    if (paginator) {
+      this.dataSource.paginator = paginator;
     }
-
   }
 
+  constructor() {
+    effect(() => {
+      const expenseRecords = this.expenses();
 
-  goToPage(
-    page: number
-  ) {
+      this.dataSource.data =
+        this.filterExpenses(expenseRecords);
 
-    this.currentPage = page;
-
+      if (this.dataSource.paginator) {
+        this.dataSource.paginator.firstPage();
+      }
+    });
   }
 
+  private filterExpenses(expenseRecords: Expense[]): Expense[] {
+    const search = this.searchText.toLowerCase().trim();
 
-  resetPagination() {
+    return expenseRecords.filter(expense => {
 
-    this.currentPage = 1;
+      let matchesName = false;
 
+      if (expense.name) {
+        matchesName =
+          expense.name.toLowerCase().includes(search);
+      }
+
+      let matchesCategory = false;
+
+      if (this.selectedCategory === '') {
+        matchesCategory = true;
+      } else if (expense.category === this.selectedCategory) {
+        matchesCategory = true;
+      }
+
+      return matchesName && matchesCategory;
+    });
   }
 
+  searchExpenses(): Expense[] {
+    return this.filterExpenses(this.expenses());
+  }
 
-  edit(
-    id: string
-  ) {
+  resetPagination(): void {
+    this.dataSource.data = this.searchExpenses();
 
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+
+  edit(id: number): void {
     this.editExpense.emit(id);
-
   }
 
+  delete(id: number): void {
+    const snackBarRef = this.snackBar.open(
+      'Are you sure you want to delete this expense?',
+      'Delete',
+      {
+        duration: 5000,
+        horizontalPosition: 'center',
+        verticalPosition: 'top'
+      }
+    );
 
-  delete(
-    id: string
-  ) {
-
-    const snackBarRef =
-      this.snackBar.open(
-        'Are you sure you want to delete this expense?',
-        'Delete',
-        {
-          duration: 5000,
-          horizontalPosition: 'center',
-          verticalPosition: 'top'
-        }
-      );
-
-    snackBarRef
-      .onAction()
-      .subscribe(() => {
-
-        this.deleteExpenseEvent.emit(id);
-
-      });
-
+    snackBarRef.onAction().subscribe(() => {
+      this.deleteExpenseEvent.emit(id);
+    });
   }
-
 }
